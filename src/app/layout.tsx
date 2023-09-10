@@ -1,3 +1,4 @@
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import Footer from '@/components/ui/Footer';
 import Header from '@/components/ui/Header';
@@ -16,6 +17,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en' suppressHydrationWarning>
+      <head>
+        <GoogleAnalytics />
+      </head>
       <body className=''>
         <ThemeProvider attribute='class' defaultTheme='dark'>
           <div className='mx-auto container'>
