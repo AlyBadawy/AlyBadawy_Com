@@ -16,6 +16,7 @@ export const PostOgMeta = async (post: BlogPost): Promise<Metadata> => {
   });
 
   return {
+    metadataBase: new URL('https://alybadawy.com'),
     title: 'Aly Badawy · Blog · ' + post.title,
     description: 'Aly Badawy · Blog · ' + post.description,
     twitter: {
@@ -45,6 +46,7 @@ export const PageOgMeta = async ({
   });
 
   return {
+    metadataBase: new URL('https://alybadawy.com'),
     title: 'Aly Badawy · ' + title,
     description: description,
     twitter: {
