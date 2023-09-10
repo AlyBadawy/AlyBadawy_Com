@@ -1,3 +1,82 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import './syntax-highlighting.css';
+
+@layer base {
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+  body {
+    @apply h-screen overflow-y-auto
+    font-normal text-base
+    [font-family:_"Montserrat",_sans-serif]
+    text-slate-800 dark:text-neutral-300 
+    bg-neutral-300 dark:bg-slate-800;
+  }
+
+  html {
+    scrollbar-gutter: stable both-edges;
+    scroll-behavior: smooth;
+  }
+
+  header {
+    @apply sticky top-0 grid grid-flow-col justify-between items-center
+    px-4 py-5 border-b border-b-slate-400/70 
+     dark:border-b-white/20
+     backdrop-blur-sm z-10
+    text-slate-800 dark:text-neutral-300 
+    bg-neutral-300/80 dark:bg-slate-800/80;
+  }
+
+  footer {
+    @apply py-2 text-center text-sm border-t border-t-cyan-700/70 mx-10 sm:mx-20;
+  }
+
+  a,
+  nav button {
+    @apply transition text-teal-600 hover:text-teal-800 dark:text-[#e6e4ff] dark:hover:text-sky-400;
+  }
+
+  article a h2 {
+    @apply underline underline-offset-4 decoration-dotted;
+  }
+
+  input,
+  textarea {
+    @apply appearance-none block w-full bg-neutral-200 dark:bg-slate-600 text-slate-700 dark:text-neutral-300 border border-slate-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white;
+  }
+
+  label {
+    @apply block uppercase tracking-wide text-slate-500 dark:text-neutral-300 text-xs font-semibold mb-1;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-l from-slate-700 dark:from-green-400 via-cyan-600 dark:via-purple-600 to-purple-600 dark:to-sky-400 text-transparent bg-clip-text animate-gradient;
+  }
+
+  button:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  .animate-gradient {
+    background-size: 150%;
+    -webkit-animation: animatedgradient 3s ease infinite alternate;
+    -moz-animation: animatedgradient 3s ease infinite alternate;
+    animation: animatedgradient 3s ease infinite alternate;
+  }
+
+  @keyframes animatedgradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 50% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+}
