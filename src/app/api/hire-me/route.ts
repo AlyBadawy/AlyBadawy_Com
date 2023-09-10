@@ -1,6 +1,6 @@
-import { AnonSupabaseClient } from '@/utils/supabase';
+import ResendClient from '@/utils/resend';
+import AnonSupabaseClient from '@/utils/supabase';
 import { NextRequest, NextResponse } from 'next/server';
-import { ResendClient } from '@/utils/resend';
 
 export const POST = async (req: NextRequest) => {
   const { name, email, message } = await req.json();
