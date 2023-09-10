@@ -1,0 +1,59 @@
+---
+title: 'Backup Ubuntu to TAR file'
+date: 2022-04-14
+category: Operating Systems
+description: Learn how to create periodic system backups on Ubuntu using a simple shell script. This process is essential for security and disaster recovery
+---
+
+If you have a Ubuntu system (whether a Server or not), you should consider keeping periodical images of the whole systems as backups; This is actually very important in the case your system has been compromised or hacked, or you simply messed up something and need to go back to a specific point in time.
+
+However, it turns out to be a very simple process to perform. You may also want to automate that.
+
+```bash showLineNumbers
+#!/bin/sh
+cd /
+tar -cvpzf /root/backup/backup.tar.gz --exclude=/root/backup --exclude=/proc --exclude=/lost+found --exclude=/sys --exclude=/mnt --exclude=/media --exclude=/dev -C /
+```
+
+### A brief explanation:
+
+This is a shell script to run on unix systems (optimized for Ubuntu) to backup the whole system to a TAR file that can then be later restored; after a rebuild for the server.
+
+- `tar`: is the command that creates the archive. It is modified by each letter immediately following, each is explained bellow
+- `c`: stands for create. Creates a new archive file
+- `v`: for Verbose mode. Tar will print what it is doing to the screen
+- `p`: for Permissions. Retains the permissions of the files put in the archive for restoration later
+- `z`: compresses the backup file with `gzip` to make it smaller
+- `f`: specifies where to store the backup, /root/backup/backup.tar.gz is the filename used in this example
+- `--exclude=/example/path`: The options following this model instruct Tar what directories NOT to backup
+- `x`: extracts the files from the tar file. This will be used in the restore process.
+
+In this case, we don't want to backup everything since some directories aren't very useful to include. The first exclusion rule directs tar not to back itself up, this is important to avoid errors during the operation.
+
+After, we proceed to exclude the `/proc`, `/lost+found`, `/sys`, `/mnt`, `/media` and `/dev` directories in root.
+
+`/proc` and `/sys` are virtual file-systems that provide windows into variables of the running kernel, so you do not want to try and backup or restore them.
+
+`/dev` is a temporary file-system whose contents are created and deleted dynamically by `udev`, so you also do not want to backup or restore it. It is important to note that these exclusions are recursive. This means that all folders located within the one excluded will be ignored as well.
+
+In the example, excluding the `/media` folder excludes all mounted drives and media there.
+
+**To restore:**
+
+Use the following code to restore your backup.
+
+```bash showLineNumbers
+tar -xzvpf /root/backup/backup.tar.gz -C /
+```
+
+However, please note that this will overwrite any file that currently exists with the one that was backed up in the TAR image. If the file no longer exists, or you are backup up to a blank (empty) disk, this will create the files from the images. If a file was created after the last backup and you try to restore the image, the file will have no equivalent stored in the archive and thus will remain untouched.
+
+**Bonus: Adding the date to the file name:**
+
+Sometimes, you may need to keep historical copies of your backup images, or you don't want to override the last image every time you run the back-up script. A good practice in those cases, is to append the date to the name of the backup file.
+
+This will allow you to keep historical copies of your system, allowing you the option of a time-machine-like mechanism. to do this just change the TAR command to be:
+
+```bash showLineNumbers
+tar -cvpzf /root/backup/backup-`date '+%F'`.tar.gz --exclude=/root/backup --exclude=/proc --exclude=/lost+found --exclude=/sys --exclude=/mnt --exclude=/media -C /
+```

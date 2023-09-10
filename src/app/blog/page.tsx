@@ -1,12 +1,15 @@
 import React from 'react';
+import BlogPostItems from './BlogPostItems';
+import { PageOgMeta } from '@/utils/ogMeta';
+import { Metadata } from 'next';
 
-// export const generateMetadata = async (): Promise<Metadata> => {
-//   return await PageOgMeta({
-//     title: 'The Blog: Your Ever-Growing Knowledge Hub!',
-//     description:
-//       'From exploring the intricacies of software architecture to discussing the latest industry trends and sharing coding best practices, my blog aims tobe your go-to resource for staying informed and empowered in the digital landscape.',
-//   });
-// };
+export const generateMetadata = async (): Promise<Metadata> => {
+  return await PageOgMeta({
+    title: 'The Blog: Your Ever-Growing Knowledge Hub!',
+    description:
+      'From exploring the intricacies of software architecture to discussing the latest industry trends and sharing coding best practices, my blog aims tobe your go-to resource for staying informed and empowered in the digital landscape.',
+  });
+};
 
 export default function Blog() {
   return (
@@ -48,6 +51,7 @@ export default function Blog() {
           </p>
         </div>
       </div>
+      <BlogPostItems />
     </section>
   );
 }

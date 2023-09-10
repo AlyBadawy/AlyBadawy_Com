@@ -1,0 +1,38 @@
+---
+title: 'Un-Delete a branch in git'
+date: 2022-04-12 17:51 -0400
+description: Learn how to recover a mistakenly deleted remote branch in Git. Even if using the -D force delete option, Git has a solution
+---
+
+This tutorial will show you how to un-delete a branch from the remote repository, if you happen to delete it by mistake. This tutorial will work even if you used the `-D` option while deleting which stands for force delete.
+
+```bash showLineNumbers
+$ git branch -D an_important_branch
+```
+
+With just one tiny statement on the command line, I managed to delete the very stuff I was working on. Apparently, git plans for this kind of mistakes, and it is quite easy to go back in time to a place free of grievous errors. Here is the fix:
+
+```bash showLineNumbers
+$ git checkout -b an_important_branch HEAD@{1}
+```
+
+Some of this will look like very ordinary git stuff. Up until the `HEAD@{1}`, the above git command is just checking out a new branch. The HEAD@{1} specifies that the source for the new branch is ... not the current branch. So what is this `HEAD@{1}`? It turns out that git keeps track of changes to the head of each branch using a tool NAMED `reflog`, witch is short for reference log. You can look at what reflog is storing at any time:
+
+```bash showLineNumbers
+$ git reflog
+121f1ea HEAD@{0}: commit: refactor EventManager
+cdb109f HEAD@{1}: rebase -i (finish): returning to refs/heads/master
+cbb109f HEAD@{2}: rebase -i (squash): Bug: EventManager
+9b367e8 HEAD@{4}: rebase -i (squash): # This is a combination of 2 commits.
+bacc817 HEAD@{5}: rebase -i (squash): updating HEAD
+7b90379 HEAD@{6}: rebase -i (squash): # This is a combination of 3 commits.
+ba6c417 HEAD@{7}: rebase -i (squash): updating HEAD
+fa11efd HEAD@{8}: checkout: moving from master to fa11efd
+9a7d180 HEAD@{9}: commit: event managers no longer trigger swipe during drag
+```
+
+Reflog says that I did a normal commit. Before that I squashed some commits using an interactive rebase. Before that I switched branches.
+
+So in the magic undelete code `HEAD@{1}` refers to reflog for the branch before it was deleted.
+
+Of course, it is always wiser to use the `-d` option when deleting. That way git provides a nice warning if a branch is being deleted before it has been merged into master.

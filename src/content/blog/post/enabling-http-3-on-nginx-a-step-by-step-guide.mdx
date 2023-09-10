@@ -1,0 +1,49 @@
+---
+title: 'Enabling HTTP/3 on Nginx: A Step-by-Step Guide'
+date: '2023-02-08'
+description: A step-by-step tutorial on how to configure Nginx with the HTTP/3 module for improved website speed, reliability, and security. Learn how to install the module, configure Nginx, and test the functionality.
+---
+
+In the previous post we spoke about [HTTP/3: The Future of Web Communication](http-3-the-future-of-web-communication), and mentioned that HTTP/3 is the latest version of the HTTP protocol and offers improved speed, reliability, and security compared to its predecessors. In this tutorial, we will show you how to enable HTTP/3 on Nginx, a popular open-source web server.
+
+Prerequisites:
+
+- Nginx version 1.19 or higher
+- A domain name with an A or AAAA record pointing to your server
+- A valid SSL certificate
+
+### Step 1: Install the Nginx HTTP/3 module
+
+To use HTTP/3, you need to install the Nginx HTTP/3 module. You can do this by compiling Nginx from source with the HTTP/3 module enabled or by installing a pre-built package from your operating system's repository. If you're compiling from source, you need to install the necessary dependencies and run the following command:
+
+```bash showLineNumbers
+./configure --with-http_v3_module
+make
+make install
+```
+
+### Step 2: Configure Nginx
+
+Once you have installed the Nginx HTTP/3 module, you need to configure Nginx to use it. To do this, open your Nginx configuration file, typically located at `/etc/nginx/nginx.conf`, and add the following lines:
+
+```showLineNumbers
+listen 443 ssl http3;
+ssl_certificate /path/to/cert.pem;
+ssl_certificate_key /path/to/key.pem;
+```
+
+Replace `/path/to/cert.pem` and `/path/to/key.pem` with the paths to your SSL certificate and key, respectively.
+
+### Step 3: Restart Nginx
+
+After making the necessary changes to your Nginx configuration, you need to restart Nginx for the changes to take effect. You can do this by running the following command:
+
+```bash showLineNumbers
+systemctl restart nginx
+```
+
+### Step 4: Test HTTP/3
+
+To test if HTTP/3 is working correctly, you can use a tool such as curl or a browser developer tool to make a request to your website over HTTP/3. If everything is working correctly, you should see a status code of 200 OK and the content of your website.
+
+In conclusion, enabling HTTP/3 on Nginx is a straightforward process that can significantly improve the speed, reliability, and security of your website. By following this tutorial, you can quickly and easily take advantage of the benefits of HTTP/3 and provide your users with a faster, more seamless online experience.

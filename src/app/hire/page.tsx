@@ -1,13 +1,14 @@
-import React from 'react';
+import { PageOgMeta } from '@/utils/ogMeta';
+import { Metadata } from 'next';
 import HireForm from './HireForm';
 
-// export const generateMetadata = async (): Promise<Metadata> => {
-//   return await PageOgMeta({
-//     title: 'Hire me for your next project',
-//     description:
-//       'Whether you have a specific software challenge in mind, need assistance in optimizing your systems, or are venturing into uncharted digital territories, your insights will provide the foundation for a successful collaboration.',
-//   });
-// };
+export const generateMetadata = async (): Promise<Metadata> => {
+  return await PageOgMeta({
+    title: 'Hire me for your next project',
+    description:
+      'Whether you have a specific software challenge in mind, need assistance in optimizing your systems, or are venturing into uncharted digital territories, your insights will provide the foundation for a successful collaboration.',
+  });
+};
 
 export default function Hire() {
   return (

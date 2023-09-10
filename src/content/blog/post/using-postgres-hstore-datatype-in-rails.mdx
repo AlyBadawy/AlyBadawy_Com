@@ -1,0 +1,176 @@
+---
+title: Using Postgres’ Hstore datatype in Rails
+date: '2023-02-13'
+description: HStore is a key value store within Postgres. You can use it similar to how you would use a dictionary within any other programming language, though it’s specific to a table column in the database.
+---
+
+`HStore` is a key value store within `Postgres`. You can use it similar to how you would use a dictionary within any other programming language, though it’s specific to a table column in the database.
+
+I use `Hstore` when I need to combine the functionality of relational database (SQL-based), with non-relational databases (NoSQL databases) in one project. For example, if you are creating a databse for an online electronics store, you will need a relational database, to save the customers, their orders, and the products they ordered. However, the products themselves don’t share the same attributes. (i.e. memory cards have memory size but laptop chargers don’t, and although it’s suitable to have number of HDMI inputs for a TV, it can’t be applied to earphones.)
+
+You get the idea.
+
+Some may go for creating a new table in the database for each set of products that have the same attributes, but this has a lot of drawbacks. Mainly, the fact that you will have to change the database scheme and re-write your application code everytime the store decides to sell a new product that doesn’t fit in any of the current multiple product tables. Also, the database losses its integrity this way, essentially, when considering the fact that searching or sorting products in this case based on one of the new attributes would be impossible.
+
+Hstore fixes this all.
+
+With Hstore, you can have one table for all Products, and have the following attributes:
+
+- ID
+- Name
+- Price
+- Data
+
+### Initialize Hstore in Rails:
+
+First, create a new Rails application and choose PostgreSQL as the database engine for that application:
+
+```bash showLineNumbers
+$ rails new hstoreApp -d postgresql
+```
+
+After you create the new Rails application, you will need to inistialize the Hstore hashing so that Rails can deal with this datatype and serialize/deserialize the contents of the this datatype. This will be accomplished by running the following migration:
+
+```bash showLineNumbers
+$ rails g migration SetupHstore
+```
+
+And type the following code in the generated migration file:
+
+```ruby showLineNumbers
+class SetupHstore < ActiveRecord::Migration
+  def self.up
+    execute "CREATE EXTENSION IF NOT EXISTS hstore"
+  end
+
+  def self.down
+    execute "DROP EXTENSION IF EXISTS hstore"
+  end
+end
+```
+
+Now you can create a model Product that has a string name and a hash hash_data; run the following command to generate that model:
+
+```sh showLineNumbers
+$ rails g model Product name:string hash_data:hstore
+```
+
+And don’t forget the run:
+
+```sh showLineNumbers
+$ rake db:migrate
+```
+
+That’s it. You application now can run code like:
+
+```ruby showLineNumbers
+> p = Product.new
+=> # <Product id: nil, name: nil, hash_data: nil, created_at: nil, updated_at: nil> > p.name = "T-Shirt"
+=> "T-shirt" > p.hash_data = {"color" => "green", "size" => "large"}
+=> {"color"=>"green", "size"=>"large"} > p.save
+SQL (9.0ms) INSERT INTO "products"
+("created_at", "hash_data", "name", "updated_at") VALUES
+($1, $2, $3, $4) RETURNING "id"
+[["created_at", "2014-07-30 00:22:56.192021"],
+      ["hash_data", "\"color\"=>\"green\",\"size\"=>\"large\""],
+      ["name", "Some     product"],
+      ["updated_at", "2014-07-30 00:22:56.192021"]]
+=> true > p.hash_data["color"]
+=> "green"
+```
+
+### Querying the Hstore attribute:
+
+If you would like to search for all products that have the key “color” regardless of the value of that key, you should run a code like:
+
+```ruby showLineNumbers
+> Product.where("hash_data ? :key", key: "color")
+```
+
+If you would like to search for all products that have the key “color” and that key equals to “yellow” for example, your code should be:
+
+```ruby showLineNumbers
+> Product.where("hash_data @> :kv", kv: "color => yellow")
+```
+
+### Updating the Hstore:
+
+Updating the Hstore value could be a little tricky. If you run the previous command to create the T-shirt that has green color and size large then run the following command to update the hash, it won’t save to the database:
+
+```ruby showLineNumbers
+> p.hash_data["color"] = "red"
+=> "red" > p.save
+(0.2ms) BEGIN
+(0.1ms) COMMIT
+=> true
+```
+
+The code didn’t really update the database itself. The reason is that in the database, the value of the Hstore attribute is a pointer to the hash which is saved in a different place in the database file. So, updating the value of the hash, would not change the value of the pointer saved in the database.
+
+The way to tell Rails that the value has changed and that it needs to update the database is to run the following code:
+
+```ruby showLineNumbers
+> p.hash_data["color"] = "red" > p.hash_data_will_change! > p.save
+```
+
+### Helpers:
+
+Because the code to query and update a Hstore datatype could be a little tricky, specially when dealing with multiple Key/Value pairs for each raw, I have created the following `Concern` that you can just apply to any model that has a hash in it:
+
+```ruby showLineNumbers
+# app/models/conerns/hashable.rb
+module Hashable
+extend ActiveSupport::Concern
+
+      ## For each model that you need to make 'Hashable', make sure
+      ## You have an attribute called 'hash_data' for that model.
+      ## Also, make sure to give that attribute a default value in
+      ## the database that is equal to an empty hash, or '{}'
+      ##
+      ## In simple format, add this field to your migration file:
+      ## # Hashable
+      ## t.hstore :hash_data, null: false, default: {}
+
+      # This method will add a key value paid to the model
+      # or update the value of the key, if the key is found
+      # for a given instance of the model
+      def put_hash(key, value)
+        if self.hash_data[key] == nil
+          self.hash_data.merge!({key => value})
+          self.hash_data_will_change!
+          self
+        else
+          self.hash_data[key] = value
+          self.hash_data_will_change!
+          self
+        end
+      end
+
+      # This mothos will delete the key/value pair for the
+      # give instance, if the key is founf. if not, the command
+      # will be ignored.
+      def delete_hash(key)
+        self.hash_data.delete(key)
+        self.hash_data_will_change!
+        self
+      end
+
+      ## These are shared mothods, a.k.a class methods
+      module ClassMethods
+        # Query all model instances that have a given key,
+        # regardless of the valiue for that key.
+        def by_hash_key(key)
+          self.where("hash_data ? :key", key: key)
+        end
+        # Query all model instance sthat have a given
+        # key/value pair.
+        def by_hash_key_value(key, value)
+          kv = key + "=>" + value
+          self.where("hash_data @> :kv", kv: kv)
+        end
+      end
+    end
+
+```
+
+Simply include this concern in your model, and use the supplied methods to query, update or delete the Hstore attribute for the model.
