@@ -1,0 +1,55 @@
+---
+layout: post
+title: Versioning your software
+date: 2023-12-19 16:31 -0500
+description: Uncover the importance of semantic versioning and learn how to implement optimistic and pessimistic version constraints to enhance your project's stability and compatibility
+---
+
+In the dynamic landscape of software development, having a robust versioning policy is crucial for maintaining code integrity, ensuring compatibility, and facilitating seamless collaboration among developers. This article delves into the significance of versioning policies, emphasizing the use of semantic versioning and exploring optimistic and pessimistic version constraints.
+
+## The Basics of Semantic Versioning (SemVer):
+
+Semantic versioning is a standardized approach to version numbering that brings clarity and predictability to software releases. It comprises three numerical segments: MAJOR.MINOR.PATCH. Each segment conveys specific information about the nature of changes introduced in a release.
+
+1. _PATCH version (0.0.x)_: This usually reflects backward-compatible bug fixes; with no actual change or addition of APIs.
+2. _MINOR version (0.x.0)_: this reflects the additions of backward-compatible feature
+3. _MAJOR version (x.0.0)_: This reflects when backward-incompatible API changes are made.
+
+By strictly adhering to semantic versioning, developers communicate the nature of changes transparently, making it easier for users to understand the potential impact of an update.
+
+This is also more important when your software could be a dependency for another software (like developing a code library, or a framework) to allow other developers to take advantage of this when choosing a version constraint to lock down the dependencies to their applications.
+
+### Optimistic Version Constraints:
+
+Optimistic version constraints are used when developers want to ensure compatibility with the latest features and bug fixes without risking major disruptions. This approach is particularly beneficial for projects that aim to stay up-to-date with the latest advancements.
+
+Example:
+
+```ts
+"dependencies": {
+  "library-name": ">= 1.2"
+}
+```
+
+This is an “optimistic” version constraint. It’s saying that all versions greater than or equal to 1.2.0 will work with your software.
+
+### Pessimistic Version Constraints:
+
+Pessimistic version constraints are employed when developers prioritize stability and want to avoid unexpected compatibility issues that might arise from major updates. This approach is ideal for projects where maintaining a stable environment is crucial.
+
+Example:
+
+```ts
+"dependencies": {
+  "library-name": "~1.2"
+}
+```
+
+In this case, the tilde (~) symbol specifies that the project can use versions from 1.2 up to, but not including, 2.0.0. This prevents the inclusion of any breaking changes introduced in version 2.0.0 or higher.
+This also makes sure that the least version to use is 1.2.0 (for the case your software utilizes a new feature that was introduced in version 1.2 that didn't exist in 1.1.x)
+
+### Choosing the Right Approach:
+
+The choice between optimistic and pessimistic version constraints depends on the specific needs and priorities of the project. Developers should carefully consider factors such as the project's size, its reliance on external libraries, and the importance of staying current with the latest features.
+
+I personally tend to use the pessimistic constraints more often. Specially when developing a library that others will be using as a dependency, so I guard myself from potential bugs/failures in future releases by using ~ instead of >= if at all possible.
