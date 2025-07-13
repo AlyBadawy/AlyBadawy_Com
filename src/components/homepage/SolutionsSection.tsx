@@ -1,14 +1,14 @@
-import { BsAppIndicator, BsBraces, BsHddNetwork } from 'react-icons/bs';
+import { BsAppIndicator, BsBraces, BsHddNetwork } from "react-icons/bs";
 
 export default function SolutionsSection() {
   return (
-    <section id='solutions' className='flex flex-col p-4 pt-14 '>
-      <h2 className='text-2xl md:text-5xl font-semibold'>Solutions</h2>
-      <div className='grid grid-flow-row lg:grid-flow-col auto-cols-auto gap-8 py-4'>
-        <div className='flex flex-col gap-4'>
-          <h3 className='text-lg md:text-2xl text-gradient'>Web development</h3>
+    <section id="solutions" className="flex flex-col p-4 pt-14 ">
+      <h2 className="text-2xl md:text-5xl font-semibold">Solutions</h2>
+      <div className="grid grid-flow-row lg:grid-flow-col auto-cols-auto gap-8 py-4">
+        <div className="flex flex-col gap-4">
+          <h3 className="text-lg md:text-2xl text-gradient">Web development</h3>
           <p>
-            <BsBraces className='text-5xl text-bold float-left mr-2 text-cyan-600' />
+            <BsBraces className="text-5xl text-bold float-left mr-2 text-cyan-600" />
             My passion for developing web applications stems from the ability to
             create powerful, immersive and highly functional software that can
             run on a wide range of devices. I find the challenge of creating a
@@ -25,12 +25,12 @@ export default function SolutionsSection() {
             applications in the future.
           </p>
         </div>
-        <div className='flex flex-col gap-4'>
-          <h3 className='text-lg md:text-2xl text-gradient'>
+        <div className="flex flex-col gap-4">
+          <h3 className="text-lg md:text-2xl text-gradient">
             Mobile Application
           </h3>
           <p>
-            <BsAppIndicator className='text-5xl text-bold float-left mr-2 text-cyan-600' />
+            <BsAppIndicator className="text-5xl text-bold float-left mr-2 text-cyan-600" />
             Mobile app development is an exciting field, where I can leverage my
             creativity, technical skills and passion to create intuitive and
             user-friendly apps that enhance people&apos;s daily lives.
@@ -45,12 +45,12 @@ export default function SolutionsSection() {
             UIKit, CoreData, CoreLocation and more.
           </p>
         </div>
-        <div className='flex flex-col gap-4'>
-          <h3 className='text-lg md:text-2xl text-gradient'>
+        <div className="flex flex-col gap-4">
+          <h3 className="text-lg md:text-2xl text-gradient">
             System Administration
           </h3>
           <p>
-            <BsHddNetwork className='text-5xl text-bold float-left mr-2 text-cyan-600' />
+            <BsHddNetwork className="text-5xl text-bold float-left mr-2 text-cyan-600" />
             As a system administrator, my goal is to ensure an efficient
             operation of the organization&apos;s IT infrastructure by
             maintaining, troubleshooting, and optimizing systems and networks.
