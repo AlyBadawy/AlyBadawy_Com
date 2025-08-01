@@ -5,7 +5,6 @@ import { allBlogPosts } from "@contentlayer/generated";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PostView } from "./PostView";
-import { SidePanel } from "../../../../components/SidePanel";
 
 export const generateMetadata = async ({
   params,
@@ -22,7 +21,7 @@ export const generateStaticParams = async () => {
   }));
 };
 
-export const PostPage = async ({ params }: PostProps) => {
+const PostPage = async ({ params }: PostProps) => {
   const post = await getPostFromSlug(params);
   if (!post) notFound();
 

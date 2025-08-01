@@ -13,15 +13,16 @@ export default function CategoryPage({ params }: CategoryProps) {
   );
 
   const category = categories.find(
-    (cat) => slugify(cat).toLowerCase() === params.category.toLowerCase()
+    (cat) => cat && slugify(cat).toLowerCase() === params.category.toLowerCase()
+  );
+
+  const posts = allBlogPosts.filter(
+    (p) => slugify(p.category || "").toLowerCase() === params.category
   );
 
   if (!category) {
     return <div className="container mx-auto p-4">No category specified.</div>;
   }
-  const posts = allBlogPosts.filter(
-    (p) => slugify(p.category || "").toLowerCase() === params.category
-  );
 
   return (
     <div className="container mx-auto p-4">

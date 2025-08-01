@@ -9,7 +9,7 @@ export const SidePanel = () => {
     new Set(
       allBlogPosts
         .map((post) => post.category)
-        .filter((category) => category !== undefined)
+        .filter((category): category is string => category !== undefined)
     )
   );
 
