@@ -1,0 +1,44 @@
+---
+title: 'Building RESTful APIs with Ruby on Rails'
+date: 2024-02-05
+category: Web Development
+description: Learn how to use Rails to create efficient JSON APIs by leveraging the --api flag, built‑in routing conventions and helpful middleware.
+---
+Ruby on Rails is traditionally associated with server‑rendered HTML views, but over the years I’ve discovered it can be an excellent platform for building JSON APIs.  Rails ships with middleware for parameter parsing, logging and caching, and its conventions help you focus on business logic rather than plumbing.  When I began transitioning my own side projects from monolithic apps to front‑end frameworks like React, being able to serve a clean JSON API from Rails made the process seamless.
+
+One of the reasons Rails shines in this space is its robust ecosystem.  Features like automatic code reloading, detailed logs and parameter filtering reduce boilerplate and make debugging easier.  Rails integrates well with authentication libraries and serializers, so you can secure endpoints and format responses consistently.  This means you can prototype quickly without sacrificing best practices.
+
+To create a lightweight API service, Rails includes an **API‑only** mode.  You can generate an application without view templates or extra middleware by running:
+
+```bash
+rails new my_api --api
+```
+
+This command scaffolds a project that inherits from `ActionController::API` instead of `ApplicationController`, minimizing middleware and focusing on JSON responses.  Within this project you can define RESTful controllers using standard actions (`index`, `show`, `create`, `update`, `destroy`) and leverage serializers like ActiveModel::Serializer or Jbuilder.  For example, a simple controller might look like this:
+
+```ruby
+class PostsController < ActionController::API
+  before_action :set_post, only: [:show, :update, :destroy]
+
+  def index
+    @posts = Post.all
+    render json: @posts
+  end
+
+  def show
+    render json: @post
+  end
+
+  private
+
+  def set_post
+    @post = Post.find(params[:id])
+  end
+end
+```
+
+When designing APIs, it’s important to think about client expectations.  Use proper HTTP status codes to convey the outcome of each request, and version your API (e.g., `/v1/posts`) so you can introduce breaking changes without disrupting existing clients.  You should also secure endpoints with token‑based authentication—JSON Web Tokens (JWT) work well—and ensure that sensitive data is never exposed.
+
+Documentation is another key consideration.  I’ve had great success using tools like Swagger (OpenAPI) to describe API endpoints and generate interactive docs.  Clear documentation reduces friction for front‑end developers and external consumers, and it forces you to think through edge cases.
+
+Rails’ convention‑over‑configuration philosophy applies to APIs as well.  By following established patterns and leveraging the rich ecosystem of gems and middleware, you can build maintainable, performant JSON APIs that scale alongside your application.  Whether you’re creating a simple backend for a mobile app or a complex microservice, Rails offers the right balance of productivity and flexibility.

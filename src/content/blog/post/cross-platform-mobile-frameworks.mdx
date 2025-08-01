@@ -1,0 +1,69 @@
+---
+title: 'Cross‑Platform Mobile Frameworks: Flutter vs React Native vs Native'
+date: 2024-06-25
+category: Mobile Development
+description: Evaluate cross‑platform frameworks Flutter and React Native, understand their strengths and consider when native development might be the better choice.
+---
+The dream of writing an app once and running it everywhere has fueled the rise of cross‑platform mobile frameworks. As a consultant working with startups, I’ve watched product teams wrestle with the trade‑offs between shipping quickly and delivering a polished, native experience. Flutter and React Native dominate the conversation today, while native development remains the baseline for performance‑sensitive applications.
+
+## Flutter
+
+Flutter uses Google’s Dart language and bundles its own Skia‑based rendering engine. Because it controls every pixel on the screen, Flutter delivers a consistent look and feel across iOS and Android. When I built a cross‑platform dashboard with rich charts and animations, Flutter’s widget system allowed me to craft a bespoke UI that looked identical on both platforms. Ahead‑of‑time compilation produces optimized native machine code, which translates into smooth scrolling and snappy animations.
+
+Here is a tiny Flutter app that displays “Hello, world” using a `StatelessWidget`:
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Flutter Example')),
+        body: const Center(child: Text('Hello, world!')),
+      ),
+    );
+  }
+}
+```
+
+Flutter shines when you need custom animations, fluid transitions and visual consistency. Its tight integration with Firebase makes it attractive if you’re already invested in Google’s ecosystem. However, learning Dart and maintaining a large widget tree can be a barrier for teams new to the platform.
+
+## React Native
+
+React Native leverages JavaScript and React concepts you may already know from building web apps. It renders UI using native components via a bridge, resulting in a more platform‑specific look. When my team needed to share logic between a web dashboard and mobile clients, React Native allowed us to reuse hooks, components and context providers, drastically reducing development time.
+
+Here’s a basic React Native component using functional syntax and hooks:
+
+```jsx
+import React from 'react';
+import { SafeAreaView, Text, Button } from 'react-native';
+
+export default function App() {
+  const [count, setCount] = React.useState(0);
+  return (
+    <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>You pressed {count} times.</Text>
+      <Button title="Press me" onPress={() => setCount(count + 1)} />
+    </SafeAreaView>
+  );
+}
+```
+
+React Native’s ecosystem is vast, with libraries like Expo providing a managed workflow for quick prototyping. Because it uses native views, your app naturally adopts the gestures, typography and navigation paradigms users expect on each platform. But bridging between JavaScript and native modules introduces performance overhead for animation‑heavy or compute‑intensive tasks.
+
+## Native development
+
+There are still cases where writing native code in Swift or Kotlin/Java is the right choice. Camera apps, augmented reality experiences and apps that push the limits of the GPU benefit from direct access to platform APIs. In a previous project involving Bluetooth Low Energy peripherals, the team chose Swift and Kotlin to minimize latency and integrate deeply with system frameworks. The trade‑off was maintaining two separate codebases and ensuring feature parity.
+
+## Decision factors
+
+When choosing a framework, start by assessing your team’s strengths. If your developers are comfortable with JavaScript and you want to reuse web components, React Native offers a gentle learning curve. If you need pixel‑perfect consistency, complex animations and don’t mind adopting a new language, Flutter may serve you better. For apps that demand absolute performance or access to proprietary platform features, native development remains unbeatable.
+
+In practice, many teams prototype in a cross‑platform framework to validate ideas and then reimplement performance‑critical portions natively. Cross‑platform tools have matured considerably, but there is no one‑size‑fits‑all answer. Weigh the cost of maintenance, user expectations and your timeline before committing to a stack.

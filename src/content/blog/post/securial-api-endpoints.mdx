@@ -1,0 +1,62 @@
+---
+title: 'Using Securial: API Endpoints and Modules'
+date: 2025-07-15
+category: Ruby on Rails
+description: Get hands‑on with Securial’s API by exploring available endpoints for sessions, accounts and roles, and understand the modular components that power them.
+---
+Once Securial is installed and configured, it exposes a set of RESTful endpoints and modules. During development of my own applications, I found it helpful to explore these endpoints with cURL and Postman before wiring up a front‑end. Understanding what’s available allows you to design client flows without guessing at server behavior.
+
+## Key endpoints
+
+The engine mounts routes under `/securial` to keep your own application namespace clean. Here are the endpoints you will interact with most often:
+
+- **GET /securial/status:** Returns a simple JSON payload indicating the service is running. I use this to monitor uptime and integrate with load balancers.
+- **POST /securial/sessions:** Signs in users using JWT or session‑based authentication. Provide credentials and receive both a session token and a refresh token.
+- **DELETE /securial/sessions:** Signs out the current session by invalidating tokens server‑side.
+- **GET /securial/accounts/:username:** Retrieves a user profile by username, returning fields like `id`, `username` and `email`.
+- **GET /securial/admins/roles:** Lists all available roles defined in your system, which is useful for building admin dashboards.
+
+All of these endpoints return consistent JSON responses. In addition, Securial supports advanced flows for refreshing tokens, revoking sessions and resetting passwords. Spend time with the documentation and test each route with real requests so you know what to expect.
+
+## Modular components
+
+Under the hood, Securial organizes its code into clear modules that you can include or override individually:
+
+- **Authentication:** Contains controllers and models for session creation, refresh and logout using signed tokens.
+- **User Management:** Provides CRUD operations for user accounts and profile retrieval, including endpoints to update passwords and email addresses.
+- **Generators:** Offers Rails generators to install the gem, create users and roles, and scaffold controllers.
+- **Identity concern:** Adds `current_user` and related helper methods to your controllers so you can easily access the authenticated user.
+- **Configuration:** Exposes the initializer and configuration settings discussed in the previous article.
+
+This modularity makes it easy to extend one piece without affecting others. For example, you might override only the authentication controller to integrate multi‑factor authentication while leaving the user management endpoints untouched.
+
+## Example: Signing in
+
+To sign in a user, send a `POST` request to `/securial/sessions` with their credentials. Using cURL, the request looks like this:
+
+```bash
+curl -X POST https://yourapp.com/securial/sessions \
+  -H 'Content-Type: application/json' \
+  -d '{"email_address": "user@example.com", "password": "secret"}'
+```
+
+The response body contains a JSON object with a `session_token` and `refresh_token`. Store these tokens on the client—typically in HTTP‑only cookies or secure storage on mobile. Subsequent authenticated requests should include the `Authorization: Bearer <session_token>` header. When the session token expires, send a request to `/securial/sessions/refresh` with the refresh token to obtain a new session.
+
+If you’re building a JavaScript client, you can wrap these calls in a helper function:
+
+```javascript
+async function signIn(email, password) {
+  const res = await fetch('/securial/sessions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email_address: email, password })
+  });
+  const data = await res.json();
+  // store data.session_token and data.refresh_token securely
+  return data;
+}
+```
+
+Using fetch or your favorite HTTP client library abstracts away the details and makes your front‑end code easier to maintain.
+
+Securial’s modular design and clear API make it straightforward to integrate authentication into your Rails application while retaining flexibility. Whether you’re issuing tokens, refreshing sessions or querying user profiles, the gem’s endpoints follow predictable patterns. Combined with the configurable options described earlier, this makes Securial a powerful tool for building secure Rails APIs.

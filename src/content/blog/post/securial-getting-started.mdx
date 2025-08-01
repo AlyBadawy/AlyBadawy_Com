@@ -1,0 +1,62 @@
+---
+title: 'Getting Started with Securial: Authentication for Rails'
+date: 2025-07-01
+category: Ruby on Rails
+description: Discover the Securial gem—a mountable Rails engine providing robust authentication and access control—and learn how to install it in your application.
+---
+Securial is a mountable Rails engine that delivers a flexible authentication and access control system for Rails applications. I created this gem after repeatedly building similar login and authorization features across multiple projects. Instead of copying code from project to project, I decided to package everything into a reusable engine that supports JWT‑based authentication, API session tokens and traditional session cookies. Whether you’re building a single‑page web app or a native mobile client, Securial’s API‑first design provides clean JSON responses out of the box.
+
+## Why Securial?
+
+Traditional authentication libraries lock you into a particular database or force you to conform to their conventions. Securial follows Rails conventions but remains modular and extensible. It ships with separate modules for authentication, user management, generators and configuration, allowing you to swap out pieces without touching the core. The engine is database‑agnostic—you can use PostgreSQL, MySQL or even a document store. In many of my client projects, this flexibility has meant less time wrestling with an inflexible library and more time focusing on business logic.
+
+Because Securial returns JSON by default, it’s perfect for applications that consume your API from JavaScript frameworks or mobile apps. You don’t need to customize responses or strip out view helpers; the gem is built with API clients in mind.
+
+## Installation
+
+Adding Securial to an existing Rails app is straightforward. First include the gem in your `Gemfile` and install it:
+
+```ruby
+# Gemfile
+gem 'securial'
+```
+
+Then run the bundler to download and install the gem:
+
+```bash
+bundle install
+```
+
+Next generate Securial’s configuration files, models and migrations:
+
+```bash
+rails generate securial:install
+```
+
+This command creates an initializer (`config/initializers/securial.rb`) where you can tweak settings, as well as migration files for creating the necessary tables. Once the files are in place, mount the engine in your routes file to expose the API endpoints:
+
+```ruby
+# config/routes.rb
+Rails.application.routes.draw do
+  mount Securial::Engine => '/securial'
+  # other routes go here
+end
+```
+
+Finally, run the migrations to set up the database tables:
+
+```bash
+rails db:migrate
+```
+
+If you’d rather start fresh, Securial includes a command to scaffold an entire Rails application with everything preconfigured:
+
+```bash
+securial new my_app
+cd my_app
+rails server
+```
+
+This will give you a running Rails API complete with authentication endpoints. From there, you can begin integrating the gem into your front‑end by hitting the `/securial/sessions` and `/securial/accounts` endpoints with your client.
+
+Once Securial is installed, you’re ready to configure authentication flows and tailor it to your needs. The next step is to explore the initializer, define your user model fields and adjust token lifetimes. The gem’s modular design means you can override controllers, customize JSON responses or hook in multi‑factor authentication without forking the codebase. Securial grew out of my desire for a reusable, flexible authentication engine, and I hope it streamlines your Rails projects as much as it has mine.

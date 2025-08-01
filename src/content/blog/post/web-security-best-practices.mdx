@@ -1,0 +1,45 @@
+---
+title: 'Web Security Best Practices: Protecting Against XSS and SQL Injection'
+date: 2024-05-10
+category: Web Development
+description: Learn how cross‑site scripting (XSS) and SQL injection attacks work, and explore practical steps to prevent them in your applications.
+---
+Security should be at the forefront of every web project.  Early in my career I underestimated the impact of vulnerabilities until a cross‑site scripting (XSS) bug let a malicious user steal session cookies from our test environment.  Cleaning up the mess taught me that investing time in security is far less costly than dealing with breaches after the fact.
+
+Cross‑site scripting occurs when an attacker injects malicious scripts into a website that are executed in users’ browsers.  Because browsers trust scripts from your domain, these attacks allow adversaries to bypass the same‑origin policy and act on behalf of a victim, stealing session tokens or personal data.  For example, if you render user input directly into the DOM like this:
+
+```html
+<!-- Vulnerable: comment text is not escaped -->
+<div class="comment">${comment.text}</div>
+```
+
+a malicious comment containing `<script>alert('XSS');</script>` will execute the alert when other users view the page.  To prevent XSS you must escape user input and avoid using dangerous APIs like `innerHTML`.  Most modern frameworks escape output by default, but you should still be vigilant.
+
+Prevention strategies include encoding all dynamic output, using templating engines that escape values and implementing a Content Security Policy (CSP) to restrict where scripts can be loaded.  If you need to render untrusted HTML, sanitize it using libraries like DOMPurify.  You can further protect users by enabling the `HttpOnly` flag on cookies to prevent JavaScript from accessing session tokens.
+
+SQL injection is another classic vulnerability.  It happens when an application constructs SQL queries by concatenating unsanitized user input.  Attackers can manipulate the query to access unauthorized data or damage your database.  Consider this naive Ruby example:
+
+```ruby
+# Vulnerable: concatenating user input directly into SQL
+def find_user(username)
+  User.find_by_sql("SELECT * FROM users WHERE name = '#{username}'")
+end
+
+find_user("' OR 1=1;--") # returns all users
+```
+
+To prevent SQL injection, always use prepared statements or query builders that separate SQL code from data.  In Rails you can write:
+
+```ruby
+def find_user(username)
+  User.where(name: username).first
+end
+
+find_user(params[:name])
+```
+
+The `where` method generates parameterized queries under the hood, ensuring user input cannot change the query structure.  Avoid dynamic SQL where possible, and validate and sanitize all user inputs.  Also configure database accounts with the minimum privileges required so that even if an injection occurs, the damage is limited.
+
+Security is not a one‑time effort but an ongoing process.  Use automated tools like static analyzers, dependency scanners and penetration testing to identify vulnerabilities early.  Keep your frameworks and dependencies up to date to benefit from security patches.  Adopt a security‑first mindset by reviewing code for potential injection points and educating your team about common attack vectors.
+
+By understanding how attacks like XSS and SQL injection work and applying best practices consistently, you can protect your users and maintain the integrity of your web applications.  Proactive security practices build trust with your audience and demonstrate your professionalism as a developer.

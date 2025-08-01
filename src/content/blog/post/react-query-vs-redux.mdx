@@ -1,0 +1,73 @@
+---
+title: 'React Query vs Redux: Managing State in Modern React Apps'
+date: 2024-06-10
+category: Web Development
+description: Compare React Query and Redux to understand how they solve different state management problems and when to use each in your React applications.
+---
+State management in React often involves both client‑side UI state and server‑provided data. React Query and Redux address these concerns differently, and finding the right tool depends on what kind of state you’re dealing with.
+
+## The challenge of state management
+
+When I started building React applications, juggling component state and server‑fetched data quickly became a pain point. Local UI flags like a modal’s open state lived in component state, while remote data was fetched manually inside effects. The resulting mix of logic made it difficult to maintain and test. Over time I experimented with different patterns and libraries to find a cleaner separation of concerns.
+
+## React Query: server‑state management
+
+React Query is a library dedicated to handling asynchronous data. Instead of sprinkling your components with `useEffect` calls and manual loading flags, you delegate fetching, caching and automatic revalidation to hooks like `useQuery` and `useMutation`. Adopting React Query in a client with heavy API usage dramatically reduced boilerplate – no more action creators or reducers just to fetch a list of posts.
+
+Here is a simplified example using React Query to fetch blog posts:
+
+```jsx
+import { useQuery } from '@tanstack/react-query'
+
+function PostList() {
+  const { data: posts, isLoading, error } = useQuery({
+    queryKey: ['posts'],
+    queryFn: async () => {
+      const res = await fetch('/api/posts')
+      if (!res.ok) throw new Error('Network response was not ok')
+      return res.json()
+    },
+    staleTime: 1000 * 60 * 5 // cache posts for 5 minutes
+  })
+
+  if (isLoading) return <p>Loading…</p>
+  if (error) return <p>Could not load posts</p>
+  return (
+    <ul>
+      {posts.map(post => <li key={post.id}>{post.title}</li>)}
+    </ul>
+  )
+}
+```
+
+Notice how a single hook call encapsulates the entire asynchronous flow, including caching and error handling. With configuration options like `staleTime` and `refetchInterval`, you can fine‑tune how often data is refreshed and whether it should be refetched in the background. This makes React Query ideal for server‑state that changes infrequently but needs to stay fresh.
+
+## Redux: client‑state management
+
+Redux, on the other hand, excels at managing synchronous UI state and sharing it across components. It provides a centralized store, dispatchable actions and pure reducers that make the state transitions predictable. I originally adopted Redux for everything—including fetched data—only to find myself writing repetitive action types and reducers for loading and error states. While Redux Toolkit streamlines boilerplate with `createSlice` and `createAsyncThunk`, you still treat remote data the same as local UI state.
+
+A typical slice for a counter might look like this:
+
+```tsx
+import { createSlice } from '@reduxjs/toolkit'
+
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: { value: 0 },
+  reducers: {
+    increment(state) { state.value += 1 },
+    decrement(state) { state.value -= 1 }
+  }
+})
+
+export const { increment, decrement } = counterSlice.actions
+export default counterSlice.reducer
+```
+
+Connecting Redux state to components using `useSelector` and dispatching actions keeps your UI in sync. However, using Redux for server data often leads to stale caches or complex invalidation logic, because Redux wasn’t designed to manage asynchronous lifecycles by default.
+
+## When to use each
+
+In my current projects I reach for React Query whenever I need to fetch, cache and synchronize data from an API. It shines in applications where lists, user profiles and other remote resources change over time and need to be refetched in the background. For purely client‑side state—like dark mode preferences, form inputs or the state of a sidebar—I prefer the built‑in `useState`, `useReducer` or Redux slices. Large single‑page tools with thousands of UI controls may still benefit from Redux to avoid prop drilling and enable time‑travel debugging.
+
+Finally, remember that you don’t have to choose one exclusively. Many teams combine React Query for server state and Redux for complex client state. By understanding the distinct roles of each library, you can build apps that are simpler, more predictable and easier to maintain.

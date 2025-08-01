@@ -1,0 +1,40 @@
+---
+title: 'Building a CI/CD Pipeline with GitHub Actions'
+date: 2024-04-10
+category: Web Development
+description: Learn how to set up a continuous integration and delivery pipeline using GitHub Actions, enabling automated builds, tests and deployments.
+---
+Modern development demands quick feedback and reliable deployments.  Continuous integration and delivery (CI/CD) pipelines automate testing and deployment so you can ship confidently.  GitHub Actions provides a powerful platform to define these pipelines directly in your repository.  When I added GitHub Actions to my open source projects, I was amazed at how easy it was to spin up Linux runners to build and test my code after every commit.
+
+The first step is to create or choose a repository.  Your repository will store both your source code and the workflow files that define your CI/CD pipeline.  You can start from scratch or add workflows to an existing project.  Within the repository, create a `.github/workflows` directory; GitHub will automatically detect YAML files in this folder and run them when triggered.
+
+Next, set up a workflow.  Navigate to the **Actions** tab in your repository and browse the available templates.  These templates provide starter workflows for common languages and frameworks.  You can also create your own YAML file and define jobs such as installing dependencies, running tests and performing linting.  Here’s a basic example for a Node.js project:
+
+```yaml
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm test --if-present
+```
+
+This workflow triggers on pushes and pull requests to the `main` branch.  It checks out the code, sets up Node.js, installs dependencies using `npm ci` and runs your test suite.  You can extend the workflow with additional steps, such as running ESLint, building a Docker image or uploading artifacts like coverage reports.
+
+Once you have defined your workflow, commit the YAML file to the repository and push your changes.  GitHub Actions will detect the new workflow and execute it automatically on every push or pull request.  The first time I pushed a workflow to my repository, the build kicked off within seconds, and I could see the status right in the pull request.
+
+Monitoring your pipeline is just as important as defining it.  GitHub’s Actions tab shows a visualizer with all workflow runs, job statuses and live logs.  You can drill into each step to see environment variables, command output and errors.  When a job fails, the log output helps you diagnose the issue quickly.  You can also add deployment steps to your pipeline, such as publishing an npm package or deploying to GitHub Pages, by using community actions like `actions/deploy-pages` or writing your own scripts.
+
+CI/CD pipelines encourage continuous testing and integration, catching issues early and speeding up deployment.  With GitHub Actions you can customize workflows to fit any project, manage secrets securely and scale your build runners on demand.  By automating your build and deployment process, you free yourself to focus on writing great code and deliver a smoother experience for your users.
