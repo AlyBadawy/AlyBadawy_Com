@@ -1,32 +1,21 @@
-import logo from '@/assets/images/logo.svg';
-import ThemeToggle from '@/components/theme/ThemeToggle';
-import Image from 'next/image';
-import Link from 'next/link';
+import logo from "@/assets/images/logo.svg";
+import { HeaderNav } from "./HeaderNav";
+import Image from "next/image";
+import Link from "next/link";
 
-export default function Header() {
+export const Header = () => {
   return (
-    <header>
-      <div className='w-28 sm:w-40 mr-2'>
-        <a href='/'>
-          <Image src={logo} alt='Aly Badawy' />
-        </a>
+    <header className="text-white mb-4 sticky top-0 bg-zinc-950 shadow-lg z-10 border-b border-zinc-900">
+      <div className="container mx-auto p-4">
+        <div className="flex flex-row justify-between items-center">
+          <div className="w-28 sm:w-40 mr-2">
+            <Link href="/">
+              <Image src={logo} alt="Aly Badawy" />
+            </Link>
+          </div>
+          <HeaderNav />
+        </div>
       </div>
-      <nav className='text-sm sm:text-base flex'>
-        <ul className='flex items-center gap-2 sm:gap-4 list-none'>
-          <li>
-            <Link href='/'>Home </Link>
-          </li>
-          <li>
-            <Link href='/hire'>Hire me!</Link>
-          </li>
-          <li>
-            <Link href='/blog'>Blog</Link>
-          </li>
-          <li>
-            <ThemeToggle />
-          </li>
-        </ul>
-      </nav>
     </header>
   );
-}
+};

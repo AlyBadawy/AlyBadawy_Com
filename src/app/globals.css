@@ -1,43 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import './syntax-highlighting.css';
+@import "./syntax-highlighting.css";
 
 @layer base {
   body {
     @apply h-screen overflow-y-auto
     font-normal text-base
     [font-family:_"Montserrat",_sans-serif]
-    text-slate-800 dark:text-neutral-300 
-    bg-neutral-300 dark:bg-slate-800;
+   text-neutral-300 
+    bg-zinc-950;
   }
 
   html {
-    scrollbar-gutter: stable both-edges;
+    scrollbar-gutter: stable;
     scroll-behavior: smooth;
   }
 
-  header {
-    @apply sticky top-0 grid grid-flow-col justify-between items-center
-    px-4 py-5 border-b border-b-slate-400/70 
-     dark:border-b-white/20
-     backdrop-blur-sm z-10
-    text-slate-800 dark:text-neutral-300 
-    bg-neutral-300/80 dark:bg-slate-800/80;
-  }
-
-  footer {
-    @apply py-2 text-center text-sm border-t border-t-cyan-700/70 mx-10 sm:mx-20;
-  }
-
-  a,
-  nav button {
-    @apply transition text-teal-600 hover:text-teal-800 dark:text-[#e6e4ff] dark:hover:text-sky-400;
+  p {
+    @apply mb-4 text-lg/7;
   }
 
   article a h2 {
@@ -54,7 +40,7 @@
   }
 
   .text-gradient {
-    @apply bg-gradient-to-l from-slate-700 dark:from-green-400 via-cyan-600 dark:via-purple-600 to-purple-600 dark:to-sky-400 text-transparent bg-clip-text animate-gradient;
+    @apply bg-gradient-to-l from-slate-700 dark:from-green-400 via-cyan-600 dark:via-purple-600 to-purple-600 dark:to-sky-400 text-transparent bg-clip-text;
   }
 
   button:disabled {

@@ -1,7 +1,10 @@
-import HeroSection from "@/components/homepage/HeroSection";
-import HireSection from "@/components/homepage/HireSection";
-import PortfolioSection from "@/components/homepage/PortfolioSection";
-import SolutionsSection from "@/components/homepage/SolutionsSection";
+import { ContactHireSection } from "@/components/home/ContactHireSection";
+import { HireSection } from "@/components/home/HireSection";
+import { HomeHero } from "@/components/home/HomeHero";
+import { HomeSolutionSection } from "@/components/home/HomeSolutionSection";
+import { PortfolioSection } from "@/components/home/PortfolioSection";
+import { QuickStats } from "@/components/home/QuickStates";
+import { TestimonialsSection } from "@/components/home/Testimonials";
 import { PageOgMeta } from "@/utils/ogMeta";
 import { Metadata } from "next";
 
@@ -16,10 +19,13 @@ export const generateMetadata = async (): Promise<Metadata> => {
 export default function Home() {
   return (
     <>
-      <HeroSection />
-      <SolutionsSection />
+      <HomeHero />
+      <HomeSolutionSection />
       <HireSection />
       <PortfolioSection />
+      <QuickStats />
+      <TestimonialsSection />
+      <ContactHireSection />
     </>
   );
 }
