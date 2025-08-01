@@ -1,44 +1,48 @@
-import rehypePrettyCode from 'rehype-pretty-code';
-import { defineDocumentType, makeSource } from 'contentlayer/source-files';
-import { BlogFullSlug, BlogSlugParam } from './src/utils/ComputedSlugs';
+import rehypePrettyCode from "rehype-pretty-code";
+import { defineDocumentType, makeSource } from "contentlayer/source-files";
+import { BlogFullSlug, BlogSlugParam } from "./src/utils/ComputedSlugs";
 
-/** @type {import('contentlayer/source-files').ComputedFields} */
+/** Computed fields shared across documents */
 const computedFields = {
   slug: {
-    type: 'string',
+    type: "string",
     resolve: (doc) => BlogSlugParam(doc),
   },
   fullSlug: {
-    type: 'string',
+    type: "string",
     resolve: (doc) => BlogFullSlug(doc),
+  },
+  year: {
+    type: "string",
+    resolve: (doc) => new Date(doc.date).getFullYear().toString(),
   },
 };
 
 export const BlogPost = defineDocumentType(() => ({
-  name: 'BlogPost',
+  name: "BlogPost",
   filePathPattern: `blog/post/**/*.mdx`,
-  contentType: 'mdx',
+  contentType: "mdx",
   fields: {
     title: {
-      type: 'string',
+      type: "string",
       required: true,
     },
     description: {
-      type: 'string',
+      type: "string",
     },
     date: {
-      type: 'date',
+      type: "date",
       required: true,
     },
     category: {
-      type: 'string',
+      type: "string",
     },
   },
   computedFields,
 }));
 
 export default makeSource({
-  contentDirPath: './src/content',
+  contentDirPath: "./src/content",
   documentTypes: [BlogPost],
   mdx: {
     rehypePlugins: [rehypePrettyCode],

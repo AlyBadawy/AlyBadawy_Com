@@ -13,7 +13,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
 export default function Hire() {
   return (
     <div className="container mx-auto">
-      <section id="solutions" className="flex flex-col p-4 pt-14 ">
+      <section className="flex flex-col p-4 pt-8 ">
         <h2 className="text-2xl md:text-4xl font-semibold text-gradient md:leading-normal">
           Hire me for your next project
         </h2>

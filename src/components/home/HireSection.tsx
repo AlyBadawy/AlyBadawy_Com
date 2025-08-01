@@ -5,7 +5,7 @@ import Link from "next/link";
 export const HireSection = () => {
   return (
     <div className="container mx-auto">
-      <section id="solutions" className="flex flex-col p-4 pt-14">
+      <section id="hire" className="flex flex-col p-4 pt-14">
         <h2
           className="text-2xl md:text-5xl font-semibold mb-2"
           data-aos="fade-up"
