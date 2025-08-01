@@ -18,11 +18,11 @@ export const BlogArticle = ({ post, index }: BlogArticleProps) => {
       key={post._id}
       className="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 p-5 flex flex-col justify-between"
       data-aos="fade-up"
-      data-aos-delay={index * 100}
+      data-aos-delay={(index % 3) * 100}
     >
       <div>
         <Link href={post.fullSlug}>
-          <h2 className="text-lg font-semibold text-gradient hover:underline flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-cyan-500 hover:underline flex items-center gap-2">
             {post.title}
           </h2>
         </Link>

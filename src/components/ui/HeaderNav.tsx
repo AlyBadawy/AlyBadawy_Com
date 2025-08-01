@@ -16,10 +16,10 @@ export const HeaderNav = () => {
   const isActive = (href: string) => (pathname === href ? "active" : "");
 
   const linkClasses = (href: string) => {
-    return `text-blue-500 pb-2 border-b-2 ${
+    return `text-cyan-500 pb-2 border-b-2 ${
       isActive(href)
-        ? "border-blue-500"
-        : "border-slate-800 hover:border-blue-500"
+        ? "border-cyan-500"
+        : "border-slate-800 hover:border-cyan-500"
     } ease-in-out transition duration-200`;
   };
 

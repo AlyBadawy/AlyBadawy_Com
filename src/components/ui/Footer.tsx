@@ -2,7 +2,7 @@ import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa";
 
 export const Footer = () => {
   return (
-    <footer className="w-full py-6 mt-auto bg-gradient-to-tr from-zinc-900 via-cyan-950 to-slate-900 border-t border-zinc-700">
+    <footer className="w-full py-6 mt-auto bg-gradient-to-r from-cyan-950 via-zinc-900 to-cyan-950 border-t border-zinc-700">
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4 px-4">
         {/* Brand / Copyright */}
         <div className="text-gray-400 text-sm flex flex-col md:flex-row items-center gap-2">

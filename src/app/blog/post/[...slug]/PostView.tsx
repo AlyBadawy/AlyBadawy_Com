@@ -8,7 +8,7 @@ type PostViewParams = {
 
 export const PostView = ({ post }: PostViewParams) => {
   return (
-    <article className="flex-1 prose prose-stone dark:prose-invert">
+    <article className="flex-1 pr-6">
       <h1 className="text-2xl md:text-4xl font-semibold text-gradient md:leading-normal">
         {post.title}
       </h1>
@@ -19,7 +19,7 @@ export const PostView = ({ post }: PostViewParams) => {
       {post.description && (
         <p className="text-slate-500 mb-4 text-sm">{post.description}</p>
       )}
-      <hr className="mt-0 mb-4 w-3/4 " />
+      <hr className="mt-0 mb-4 border-zinc-600" />
       <Mdx code={post.body.code} />
     </article>
   );

@@ -12,7 +12,7 @@ export default function BlogLayout({
         <main className="flex-1">{children}</main>
 
         {/* Sticky Side Panel */}
-        <aside className="w-full md:w-64 lg:w-72 md:sticky md:top-40 self-start">
+        <aside className="w-full md:w-64 lg:w-72 md:sticky md:top-44 self-start">
           <SidePanel />
         </aside>
       </div>
