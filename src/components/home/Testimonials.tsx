@@ -10,7 +10,7 @@ export const TestimonialsSection = () => {
           className="flex flex-col items-center p-4 pt-14"
         >
           <h2
-            className="text-2xl md:text-4xl font-semibold mb-8"
+            className="text-2xl md:text-4xl font-semibold mb-8 text-center text-cyan-500"
             data-aos="fade-up"
           >
             Testimonials
@@ -25,7 +25,7 @@ export const TestimonialsSection = () => {
               >
                 <div className="flex flex-col items-center">
                   <FaLinkedin className="text-cyan-500 text-3xl mb-3" />
-                  <p className="italic text-gray-300 mb-4">"{t.quote}"</p>
+                  <p className="italic text-gray-400 mb-4">"{t.quote}"</p>
                 </div>
                 <div className="flex flex-col items-center">
                   <div className="font-bold text-cyan-200">{t.name}</div>

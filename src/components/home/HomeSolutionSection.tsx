@@ -10,7 +10,7 @@ export const HomeSolutionSection = () => {
           className="flex flex-col p-4 pt-14 text-neutral-400"
         >
           <h2
-            className="text-2xl md:text-5xl font-semibold text-white"
+            className="text-2xl md:text-5xl font-semibold text-cyan-500 text-center"
             data-aos="fade-up"
           >
             Solutions

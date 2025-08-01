@@ -7,7 +7,7 @@ import "./globals.css";
 import AOSProvider from "@/components/AOSProvider";
 
 export const metadata: Metadata = {
-  title: "Aly Badawy • Software Engineer",
+  title: "Home",
   description:
     "Aly Badawy's personal website showcasing skills, projects, and contact information.",
 };
@@ -22,7 +22,7 @@ export default function RootLayout({
       <head>
         <GoogleAnalytics />
       </head>
-      <body className="">
+      <body className="!overflow-x-hidden">
         <ThemeProvider attribute="class" defaultTheme="dark">
           <AOSProvider>
             <div className="min-h-screen flex flex-col">

@@ -5,7 +5,7 @@ export const QuickStats = () => {
     <div className="container mx-auto my-8 p-4">
       <section className="py-14 flex flex-col items-center">
         <h2
-          className="text-2xl md:text-4xl font-semibold mb-8 text-center"
+          className="text-2xl md:text-4xl font-semibold mb-8 text-center text-cyan-500"
           data-aos="fade-up"
         >
           By the Numbers

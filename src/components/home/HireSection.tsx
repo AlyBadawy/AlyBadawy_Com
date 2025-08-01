@@ -7,7 +7,7 @@ export const HireSection = () => {
     <div className="container mx-auto">
       <section id="hire" className="flex flex-col p-4 pt-14">
         <h2
-          className="text-2xl md:text-5xl font-semibold mb-2"
+          className="text-2xl md:text-5xl font-semibold mb-2 text-center text-cyan-500"
           data-aos="fade-up"
         >
           Need Robust, Tailored Solutions?

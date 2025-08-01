@@ -13,7 +13,7 @@
     @apply h-screen overflow-y-auto
     font-normal text-base
     [font-family:_"Montserrat",_sans-serif]
-   text-neutral-300 
+   text-gray-400 
     bg-zinc-950;
   }
 
