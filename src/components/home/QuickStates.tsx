@@ -18,8 +18,8 @@ export const QuickStats = () => {
               data-aos="zoom-in"
               data-aos-delay={i * 150}
             >
-              <span className="text-4xl mb-2">{stat.icon}</span>
-              <span className="text-3xl font-bold text-cyan-300">
+              <span className="text-4xl mb-4">{stat.icon}</span>
+              <span className="text-5xl font-bold text-cyan-300">
                 {stat.value}
               </span>
               <span className="text-xs text-gray-400 text-center mt-2">

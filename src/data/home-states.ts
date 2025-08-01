@@ -4,4 +4,5 @@ export const STATS = [
   { icon: "👥", label: "Teams Led & Mentored", value: "10+" },
   { icon: "🛠️", label: "Technologies Mastered", value: "12+" },
   { icon: "🌎", label: "Industries Served", value: "8+" },
+  { icon: "📱", label: "Mobile apps developed", value: "4+" },
 ];
