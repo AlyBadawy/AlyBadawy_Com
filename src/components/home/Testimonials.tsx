@@ -38,8 +38,8 @@ export const TestimonialsSection = () => {
               </div>
             ))}
           </div>
-          <div className="mt-6 text-sm text-gray-500 py-8">
-            * All testimonials are from real clients and colleagues on{" "}
+          <div className="mt-2 text-xs text-semibold text-cyan-700 py-8 max-w-xs lg:max-w-lg text-center">
+            All testimonials are from real clients and colleagues on{" "}
             <a
               href="https://www.linkedin.com/in/aly-badawy/"
               target="_blank"

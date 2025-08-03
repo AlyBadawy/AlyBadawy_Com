@@ -1,6 +1,7 @@
 import Image from "next/image";
 import HirePic from "@/assets/images/home-hire.png";
 import Link from "next/link";
+import { FaHandshake } from "react-icons/fa";
 
 export const HireSection = () => {
   return (
@@ -14,7 +15,7 @@ export const HireSection = () => {
         </h2>
 
         <div className="flex flex-col md:flex-row justify-between items-center my-4 gap-8">
-          <div className="w-1/2 md:w-1/3 flex-shrink-0" data-aos="fade-right">
+          <div className="w-1/2 md:w-1/3 flex-shrink-0" data-aos="flip-right">
             <Image
               src={HirePic}
               alt="Hire Me"
@@ -22,7 +23,7 @@ export const HireSection = () => {
               width={500}
             />
           </div>
-          <div className="flex-1 flex flex-col gap-5" data-aos="fade-left">
+          <div className="flex-1 flex flex-col gap-5" data-aos="flip-left">
             <p>
               Tired of cookie-cutter software? I deliver{" "}
               <span className="text-gradient">bespoke engineering</span> for
@@ -43,7 +44,7 @@ export const HireSection = () => {
             </p>
             <Link href="/hire" className="mt-2">
               <span className="inline-block py-2 px-4 rounded-md border-2 border-cyan-700 hover:bg-cyan-900/30 transition-colors font-semibold text-gradient cursor-pointer">
-                🤝🏻 Hire Me
+                Contact Me
               </span>
             </Link>
           </div>

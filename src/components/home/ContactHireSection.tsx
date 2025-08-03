@@ -28,24 +28,25 @@ export const ContactHireSection = () => {
           data-aos="fade-up"
           data-aos-delay={100}
         >
-          <a
-            href="mailto:me@alybadawy.com"
-            className="flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-600 to-fuchsia-600 text-white font-bold shadow hover:from-fuchsia-600 hover:to-cyan-600 transition-colors"
+          <Link
+            href="/hire"
+            className="flex items-center gap-2 px-6 py-3 rounded-lg border border-fuchsia-400 text-fuchsia-300 bg-zinc-900 hover:bg-zinc-800 font-bold transition-colors"
           >
-            <FaEnvelope /> Contact Me
-          </a>
+            <FaUser /> Contact Me
+          </Link>
+
           <Link
             href="/resume"
-            className="flex items-center gap-2 px-6 py-3 rounded-lg border border-cyan-400 text-cyan-300 bg-zinc-900 hover:bg-zinc-800 font-bold transition-colors"
+            className="flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-600 to-fuchsia-600 text-white font-bold shadow hover:from-fuchsia-600 hover:to-cyan-600 transition-colors"
           >
             <FaFileAlt /> See Resume
           </Link>
-          <Link
-            href="/about"
-            className="flex items-center gap-2 px-6 py-3 rounded-lg border border-fuchsia-400 text-fuchsia-300 bg-zinc-900 hover:bg-zinc-800 font-bold transition-colors"
+          <a
+            href="mailto:me@alybadawy.com"
+            className="flex items-center gap-2 px-6 py-3 rounded-lg border border-cyan-400 text-cyan-300 bg-zinc-900 hover:bg-zinc-800 font-bold transition-colors"
           >
-            <FaUser /> About Me
-          </Link>
+            <FaEnvelope /> Email Me
+          </a>
         </div>
       </section>
     </div>

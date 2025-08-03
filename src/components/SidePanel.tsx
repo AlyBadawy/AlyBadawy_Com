@@ -31,7 +31,7 @@ export const SidePanel = () => {
           {categories.map((category) => (
             <li
               key={category}
-              data-aos="fade-left"
+              data-aos="flip-left"
               className="hover:text-cyan-500"
             >
               <LinkIcon size={10} className="text-gray-400 inline" />{" "}
@@ -52,7 +52,7 @@ export const SidePanel = () => {
         </h3>
         <ul className="space-y-1 text-sm text-slate-600 dark:text-slate-300">
           {years.map((year) => (
-            <li key={year} data-aos="fade-left" className="hover:text-cyan-500">
+            <li key={year} data-aos="flip-left" className="hover:text-cyan-500">
               <LinkIcon size={10} className="text-gray-400 inline" />{" "}
               <Link href={`/blog/archive/${year}`}>{year}</Link>
             </li>

@@ -1,13 +1,14 @@
 import Image from "next/image";
-import { ScrambleText } from "../ScrambleText";
 import AlyPicture from "@/assets/images/aly-badawy-profile.jpg";
+import Link from "next/link";
+import { FaFileAlt, FaUser } from "react-icons/fa";
 
 export const HomeHero = () => {
   return (
     <div className="container mx-auto p-4 min-h-full">
       <div className="grid grid-cols-1 lg:grid-cols-7 gap-4 mt-4 items-center">
         {/* MAIN HEADLINE + BIO */}
-        <div className="col-span-5" data-aos="fade-right">
+        <div className="col-span-5" data-aos="flip-right">
           <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl lg:leading-[1] font-extrabold font-sans text-shadow-lg text-gray-200">
             Crafting
             <br />
@@ -49,20 +50,19 @@ export const HomeHero = () => {
           </section>
           {/* CTA BUTTONS */}
           <div className="flex flex-wrap gap-4 mt-8" data-aos="fade-up">
-            <a
-              href="#contact"
-              className="px-6 py-3 rounded-lg font-semibold bg-gradient-to-r from-cyan-500 to-fuchsia-500 text-white shadow hover:from-fuchsia-500 hover:to-cyan-500 transition-colors"
+            <Link
+              href="/hire"
+              className="flex items-center gap-2 px-6 py-3 rounded-lg border border-fuchsia-400 text-fuchsia-300 bg-zinc-900 hover:bg-zinc-800 font-bold transition-colors"
             >
-              Contact Me
-            </a>
-            <a
+              <FaUser /> Contact Me
+            </Link>
+
+            <Link
               href="/resume"
-              className="px-6 py-3 rounded-lg font-semibold border border-cyan-400 text-cyan-300 bg-zinc-900 hover:bg-zinc-800 transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-6 py-3 rounded-lg border border-cyan-400 text-cyan-300 bg-zinc-900 hover:bg-zinc-800 font-bold transition-colors"
             >
-              See Resume
-            </a>
+              <FaFileAlt /> See Resume
+            </Link>
           </div>
         </div>
         <div className="col-span-2 mx-auto flex flex-col justify-between items-center align-middle">
@@ -70,7 +70,7 @@ export const HomeHero = () => {
             src={AlyPicture}
             alt="Aly Badawy profile"
             className="hidden lg:inline-block w-full max-w-sm md:max-w-md h-auto rounded-xl  shadow-blue-950 shadow-sm"
-            data-aos="fade-left"
+            data-aos="flip-left"
             width={800}
             height={800}
             priority
