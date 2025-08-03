@@ -7,7 +7,7 @@ import {
 export const PortfolioProject = ({ project, index }: PortfolioProjectProps) => {
   return (
     <div
-      className="bg-zinc-950 border border-zinc-700 rounded-lg shadow-lg w-full max-w-sm p-5 flex flex-col items-center hover:scale-105 transition-transform"
+      className="bg-zinc-950 border border-zinc-700 rounded-lg shadow-lg max-w-xs p-5 flex flex-col items-center hover:scale-105 transition-transform"
       data-aos-delay={index * 75}
       data-aos="fade-up"
     >

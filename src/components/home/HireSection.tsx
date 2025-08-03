@@ -14,7 +14,7 @@ export const HireSection = () => {
           Need Robust, Tailored Solutions?
         </h2>
 
-        <div className="flex flex-col md:flex-row justify-between items-center my-4 gap-8">
+        <div className="flex flex-col lg:flex-row justify-between items-center my-4 gap-8">
           <div className="w-1/2 md:w-1/3 flex-shrink-0" data-aos="flip-right">
             <Image
               src={HirePic}

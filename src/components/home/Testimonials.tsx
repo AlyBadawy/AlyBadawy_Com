@@ -19,7 +19,7 @@ export const TestimonialsSection = () => {
             {TESTIMONIALS.map((t, i) => (
               <div
                 key={i}
-                className="bg-zinc-900 border border-cyan-800 rounded-sm shadow-lg shadow-cyan-900 max-w-sm p-6 flex flex-col items-center justify-between"
+                className="bg-zinc-900 border border-cyan-800 rounded-sm shadow-lg shadow-cyan-900 max-w-xs p-6 flex flex-col items-center justify-between"
                 data-aos="flip-left"
                 data-aos-delay={i * 200}
               >
@@ -38,7 +38,7 @@ export const TestimonialsSection = () => {
               </div>
             ))}
           </div>
-          <div className="mt-2 text-xs text-semibold text-cyan-700 py-8 max-w-xs lg:max-w-lg text-center">
+          <div className="mt-2 text-xs text-semibold text-cyan-700 py-8 max-w-xs md:max-w-sm lg:max-w-lg text-center">
             All testimonials are from real clients and colleagues on{" "}
             <a
               href="https://www.linkedin.com/in/aly-badawy/"

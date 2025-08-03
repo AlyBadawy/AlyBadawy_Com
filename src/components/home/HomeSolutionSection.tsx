@@ -15,7 +15,7 @@ export const HomeSolutionSection = () => {
           >
             Solutions
           </h2>
-          <div className="grid grid-flow-row xl:grid-flow-col auto-cols-auto gap-8 py-4">
+          <div className="grid grid-flow-row lg:grid-flow-col auto-cols-auto gap-8 py-4">
             <HomeSolution title="DevSecOps" icon={<BsShieldLock />}>
               <p>
                 I build secure, scalable, and resilient applications with
