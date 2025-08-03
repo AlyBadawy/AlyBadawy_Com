@@ -40,7 +40,7 @@ export default function ResumePage() {
         <div className="text-md text-fuchsia-300 font-bold mt-2">
           Technical Lead & Senior Software Engineer
         </div>
-        <div className="text-gray-300 text-base mt-3 max-w-2xl mx-auto">
+        <div className="text-gray-300 text-base mt-3 max-w-2xl mx-auto text-left">
           Proven technical leader delivering secure, scalable software and
           guiding cross-functional teams. Specialized in full-stack development,
           cloud, DevSecOps, and modern architecture. Active Public Trust
