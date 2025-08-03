@@ -12,11 +12,10 @@ export const BlogSlugParam = (doc: LocalDocument) => {
 
 export const getPostFromSlug = async (params: PostProps['params']) => {
   const slug = params?.slug?.join('/');
-  const post = allBlogPosts.find((post) => post.slug === slug);
-
-  if (!post) {
-    null;
+  if (!slug) {
+    return null;
   }
 
-  return post;
+  const post = allBlogPosts.find((post) => post.slug === slug);
+  return post ?? null;
 };
