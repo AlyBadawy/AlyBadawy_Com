@@ -188,14 +188,14 @@ export default function ResumePage() {
         </h2>
         <div className="text-gray-300 text-sm">
           <div>
-            <span className="font-bold text-fuchsia-500">
+            <span className="font-bold text-fuchsia-300">
               Master of Information Systems
             </span>
             , University of Phoenix (Online Campus) <br />
             <span className="text-gray-400">March 2010 &mdash; GPA: 3.17</span>
           </div>
           <div className="mt-2">
-            <span className="font-bold text-fuchsia-500">
+            <span className="font-bold text-fuchsia-300">
               B.S. of Managerial Information Systems
             </span>
             , Sadat Academy for Management Sciences, Cairo, Egypt <br />
