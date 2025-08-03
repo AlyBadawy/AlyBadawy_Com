@@ -15,21 +15,25 @@ export const TestimonialsSection = () => {
           >
             Testimonials
           </h2>
-          <div className="flex flex-wrap gap-8 justify-center">
+          <div className="flex flex-wrap gap-6 justify-center">
             {TESTIMONIALS.map((t, i) => (
               <div
                 key={i}
-                className="bg-zinc-900 border border-cyan-800 rounded-sm shadow-lg shadow-cyan-900 max-w-md p-6 flex flex-col items-center justify-between"
+                className="bg-zinc-900 border border-cyan-800 rounded-sm shadow-lg shadow-cyan-900 max-w-sm p-6 flex flex-col items-center justify-between"
                 data-aos="flip-left"
                 data-aos-delay={i * 200}
               >
                 <div className="flex flex-col items-center">
                   <FaLinkedin className="text-cyan-500 text-3xl mb-3" />
-                  <p className="italic text-gray-400 mb-4">"{t.quote}"</p>
+                  <p className="italic text-gray-400 mb-4 text-sm">
+                    "{t.quote}"
+                  </p>
                 </div>
                 <div className="flex flex-col items-center">
-                  <div className="font-bold text-cyan-200">{t.name}</div>
-                  <div className="text-xs text-fuchsia-400">{t.title}</div>
+                  <div className="font-semibold text-cyan-200 ">{t.name}</div>
+                  <div className="text-xs text-fuchsia-400 italic">
+                    {t.title}
+                  </div>
                 </div>
               </div>
             ))}

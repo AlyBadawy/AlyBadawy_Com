@@ -1,4 +1,4 @@
-import finish from "@/assets/images/finish.svg";
+import securial from "@/assets/images/securial.png";
 import sys4 from "@/assets/images/sys4.svg";
 import shoppy from "@/assets/images/shoppy.svg";
 import lapis from "@/assets/images/lapis.png";
@@ -6,22 +6,23 @@ import dailyCoins from "@/assets/images/dailyCoins.jpg";
 
 export const PROJECTS = [
   {
-    img: finish,
-    title: "FinishIO",
-    desc: "Collaborative web app for project and task management—share, organize, and execute as a team.",
-    tech: "Rails • React",
-  },
-  {
-    img: sys4,
-    title: "SYS4",
-    desc: "Modular solutions for diverse domains—development, health, gaming, social, and more.",
-    tech: "Multi-stack",
+    img: securial,
+    title: "Securial",
+    desc: "A Rails engine for secure, flexible authentication and access control in API backend systems.",
+    tech: "Ruby Gem • Security • Encryption",
+    href: "https://github.com/alybadawy/securial",
   },
   {
     img: shoppy,
     title: "Shoppy",
     desc: "E-commerce CMS to manage products, inventory, and orders—flexible for any frontend.",
     tech: "Rails • API",
+  },
+  {
+    img: sys4,
+    title: "SYS4",
+    desc: "Modular solutions for diverse domains—development, health, gaming, social, and more.",
+    tech: "Multi-stack",
   },
   {
     img: dailyCoins,
