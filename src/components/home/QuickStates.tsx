@@ -19,10 +19,10 @@ export const QuickStats = () => {
               data-aos-delay={i * 150}
             >
               <span className="text-4xl mb-4">{stat.icon}</span>
-              <span className="text-5xl font-bold text-cyan-300">
+              <span className="text-5xl font-bold text-slate-500">
                 {stat.value}
               </span>
-              <span className="text-xs text-gray-400 text-center mt-2">
+              <span className="text-xs text-fuchsia-500 text-center mt-2">
                 {stat.label}
               </span>
             </div>

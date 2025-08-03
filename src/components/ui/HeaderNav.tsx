@@ -11,6 +11,7 @@ export const HeaderNav = () => {
   const links = [
     { name: "Home", href: "/" },
     { name: "Blog", href: "/blog" },
+    { name: "Resume", href: "/resume" },
     { name: "Hire Me", href: "/hire" },
   ];
 
