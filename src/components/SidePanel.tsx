@@ -24,6 +24,7 @@ export const SidePanel = () => {
         <h3
           className="text-lg font-semibold mb-3 text-gradient"
           data-aos="fade-up"
+          data-aos-once="true"
         >
           Categories
         </h3>
