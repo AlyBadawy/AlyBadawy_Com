@@ -1,0 +1,40 @@
+---
+title: 'Solid Queue in Rails 8: A Lightweight Alternative to Redis (Part 1)'
+date: 2025-02-05
+category: Ruby on Rails
+description: Discover Solid Queue, Rails 8’s built‑in background job system that runs on your database—no Redis required—and learn how it works under the hood.
+---
+Background job processing is a common requirement for modern web applications. Sending emails, processing uploads and performing CPU‑heavy calculations are tasks you don’t want your users to wait for. Traditionally the Rails ecosystem has relied on gems like Sidekiq and Resque backed by Redis to handle this work. While effective, adding Redis introduces an extra service to install, scale and monitor. Over the years I’ve seen teams struggle with configuring Redis clusters, handling failover and dealing with memory pressure — all for the sake of background jobs.
+
+With Rails 8, that external dependency disappears. **Solid Queue** is the new default queue adapter for Active Job. It stores jobs in your application’s database and relies on standard SQL features such as `FOR UPDATE SKIP LOCKED` to safely allow multiple workers to pull jobs without stepping on each other. Because it’s a native part of Rails, there’s nothing else to install. Your `Job` classes work the same as always, but instead of pushing payloads into Redis they create rows in the `active_jobs` table. A built‑in job runner polls this table and executes jobs in the order they were enqueued.
+
+To start using Solid Queue, you don’t need to add any gems. Generate a new job as you normally would:
+
+```ruby
+# Generate a job with rails generator
+bin/rails generate job hard_work
+
+# app/jobs/hard_work_job.rb
+class HardWorkJob < ApplicationJob
+  queue_as :default
+
+  def perform(*args)
+    # Perform a long‑running task here
+    HeavyService.do_something
+  end
+end
+```
+
+Enqueueing a job happens as usual with `HardWorkJob.perform_later`. When called, Rails inserts a record into the `active_jobs` table. To process jobs you run the built‑in worker:
+
+```bash
+bin/rails solid_queue:work
+```
+
+This command starts one worker that continuously polls the database, finds enqueued jobs and executes them. You can run multiple workers to process jobs concurrently; each worker selects jobs using `FOR UPDATE SKIP LOCKED` so they don’t pick the same job twice. Under the hood, Solid Queue uses a tiny state machine to manage job lifecycles: enqueued, processing, succeeded or failed. If a job raises an exception it is retried according to your retry logic defined in the job class.
+
+One advantage of using Solid Queue is **simplicity**. Because your jobs are stored alongside your other models, there’s no need to provision and maintain a Redis server. This makes local development trivial: run `rails server` and `rails solid_queue:work` and you’re ready to test background tasks. Deployment becomes less fraught because there’s one less service to configure. Monitoring is straightforward too—you can inspect jobs directly in the database using your preferred tools.
+
+There are trade‑offs. Databases are optimized for transactional queries, not necessarily high‑throughput background processing. If your app enqueues thousands of jobs per second you may need to tune your database for write throughput or scale horizontally. Additionally, because jobs share the same database as your application data, heavy job activity could impact query performance if not managed carefully. In my experience migrating a mid‑sized app from Sidekiq to Solid Queue, we saw CPU utilization on our database server increase modestly but remained well within acceptable limits. The benefit of removing Redis and simplifying our infrastructure outweighed the cost.
+
+Overall, Solid Queue signals a shift toward batteries‑included Rails. It lowers the barrier to entry for background processing and aligns with Rails’ philosophy of providing sensible defaults. In the next installment we’ll explore tuning Solid Queue for performance, managing multiple queues and avoiding common pitfalls.

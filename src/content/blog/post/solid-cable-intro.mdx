@@ -1,0 +1,93 @@
+---
+title: 'Solid Cable in Rails 8: Simplifying WebSocket Layers (Part 1)'
+date: 2025-03-05
+category: Ruby on Rails
+description: Learn how Solid Cable replaces Redis for Action Cable messaging using your database, making real‑time features easier to deploy.
+---
+The web has become increasingly real‑time. Notifications, collaborative editing and live dashboards are expected features in modern applications. Rails has long offered **Action Cable** as its WebSocket framework, but historically it required a separate message broker like Redis to fan out messages between server processes. With Rails 8, that last external dependency disappears. **Solid Cable** is a database‑backed Action Cable adapter that uses your existing database to broadcast messages to connected clients.
+
+In this post I’ll explain how Solid Cable works, why it was created and how you can start using it in your Rails 8 applications. I remember being skeptical at first—can a database handle real‑time messaging without turning into a bottleneck?—but after trying it in production I’m convinced it’s a compelling alternative.
+
+## Motivation: one less moving part
+
+Deploying Action Cable used to mean provisioning and managing Redis. For small teams this overhead was frustrating: you’d spin up Redis just to handle WebSocket pub/sub, monitor its memory usage, set up backups and ensure it scaled with your workload. Meanwhile the rest of your application was happily running on PostgreSQL or MySQL. The idea behind Solid Cable is to leverage your existing database for message passing and avoid the operational complexity of an extra service.
+
+Solid Cable uses different strategies depending on your database. For PostgreSQL it leverages the built‑in `LISTEN/NOTIFY` feature. When your application broadcasts a message, Solid Cable writes the message to a `solid_cable_messages` table and issues a `NOTIFY` statement. Other processes are listening for these notifications and immediately pick up the new message, pushing it out to connected clients. This is extremely fast for small payloads (sub‑8 KB). For larger payloads or for databases without `NOTIFY`, Solid Cable falls back to a lightweight polling mechanism. A background thread periodically checks the `solid_cable_messages` table for new entries and broadcasts them. The polling interval is configurable.
+
+## Installation and setup
+
+Getting started with Solid Cable is straightforward. If you’re on Rails 8 you already have the gems in your bundle. For older versions you can add the gem manually:
+
+```ruby
+# Gemfile
+gem 'solid_cable'
+
+# Then run
+bundle install
+```
+
+Next run the installer to generate configuration files and database migrations:
+
+```bash
+bin/rails solid_cable:install
+```
+
+This creates a migration that adds the `solid_cable_messages` table and a `config/cable.yml` file. In `cable.yml` you specify the adapter and options. To enable Solid Cable in development and production:
+
+```yaml
+development:
+  adapter: solid_cable
+  polling_interval: 0.1
+  message_retention: 1.day
+
+production:
+  adapter: solid_cable
+  polling_interval: 0.05
+  message_retention: 2.days
+```
+
+Here `polling_interval` controls how often Solid Cable checks for new messages when not using `NOTIFY`, and `message_retention` specifies how long messages remain in the database before being pruned. Choose a retention period long enough for slow consumers to catch up but not so long that the table grows indefinitely. After editing `cable.yml`, run the migration:
+
+```bash
+bin/rails db:migrate
+```
+
+Finally, start your Rails server and it will automatically use Solid Cable instead of Redis. You don’t need to change your channel classes or client JavaScript—Action Cable’s public API remains the same. I was pleasantly surprised that after switching adapters my existing `app/channels/*` files continued to work without modification.
+
+## How broadcasting works
+
+To send messages over Solid Cable you use the familiar `broadcast` helpers. Suppose you have a `ChatChannel` that streams messages to a room:
+
+```ruby
+class ChatChannel < ApplicationCable::Channel
+  def subscribed
+    stream_for room
+  end
+
+  def receive(data)
+    # Persist the chat message and broadcast
+    message = room.messages.create!(content: data['content'], user: current_user)
+    ChatChannel.broadcast_to(room, message: render_message(message))
+  end
+
+  private
+
+  def room
+    @room ||= Room.find(params[:room_id])
+  end
+end
+```
+
+When `broadcast_to` is called, Action Cable serializes the payload and passes it to the Solid Cable adapter. The adapter inserts a record into the `solid_cable_messages` table and issues a `NOTIFY`. All other processes listening for that channel pick up the message and forward it to any subscribed WebSocket clients. If the payload is larger than the `NOTIFY` limit (typically 8 KB), only a reference is sent via `NOTIFY` and the message itself is fetched from the database.
+
+On the client side nothing changes—you still call `App.cable.subscriptions.create` and handle `received` callbacks. The difference is entirely under the hood.
+
+## Benefits and trade‑offs
+
+The obvious benefit is simpler deployments. You no longer need Redis or another pub/sub service. This is a big win for small applications or environments where adding another service is onerous. Because messages are stored in the database, they survive process crashes and can be replayed if necessary. You can inspect them with SQL or build dashboards without leaving your database.
+
+There are trade‑offs. **Latency** may be slightly higher compared to Redis, especially under heavy load or when using the polling fallback. `LISTEN/NOTIFY` notifications are delivered immediately, but for databases without it you’re limited by the polling interval. Payload size is constrained; if you often broadcast blobs larger than several kilobytes, you may need to adjust your design or accept the cost of fetching data from the `solid_cable_messages` table. Finally, all of this real‑time messaging shares your primary database—if you send a flood of messages you could contend with application queries.
+
+In my experience, for most applications with moderate WebSocket traffic (hundreds of messages per second) Solid Cable performs admirably. We monitored database load and saw negligible impact. The convenience of removing Redis outweighed the slight increase in latency. For extremely high throughput or very large payloads, you may still want a dedicated message broker.
+
+With a working Solid Cable setup, you can build chat features, live updates and collaborative tools without leaving the Rails ecosystem. In the next post we’ll dive into tuning Solid Cable for performance, multi‑database configurations and handling edge cases.
