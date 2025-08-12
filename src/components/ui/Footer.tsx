@@ -1,4 +1,5 @@
 import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 export const Footer = () => {
   return (
@@ -26,7 +27,7 @@ export const Footer = () => {
             aria-label="GitHub"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-yellow-600 hover:text-zinc-100 transition-colors"
+            className="text-yellow-600 hover:text-yellow-200 transition-colors"
           >
             <FaGithub />
           </a>
@@ -36,6 +37,15 @@ export const Footer = () => {
             className="text-fuchsia-400 hover:text-fuchsia-200 transition-colors"
           >
             <FaEnvelope />
+          </a>
+          <a
+            href="https://x.com/AlyBadawy"
+            aria-label="X"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-green-400 hover:text-green-200 transition-colors"
+          >
+            <FaXTwitter />
           </a>
         </div>
       </div>

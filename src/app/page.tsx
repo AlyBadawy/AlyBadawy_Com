@@ -5,6 +5,7 @@ import { HomeSolutionSection } from "@/components/home/HomeSolutionSection";
 import { PortfolioSection } from "@/components/home/PortfolioSection";
 import { QuickStats } from "@/components/home/QuickStates";
 import { TestimonialsSection } from "@/components/home/Testimonials";
+import { Timeline } from "@/components/home/Timeline";
 import { PageOgMeta } from "@/utils/ogMeta";
 import { Metadata } from "next";
 

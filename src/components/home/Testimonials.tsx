@@ -16,12 +16,12 @@ export const TestimonialsSection = () => {
             Testimonials
           </h2>
           <div className="flex flex-wrap gap-6 justify-center">
-            {TESTIMONIALS.map((t, i) => (
+            {TESTIMONIALS.map((t) => (
               <div
-                key={i}
-                className="bg-zinc-900 border border-cyan-800 rounded-sm shadow-lg shadow-cyan-900 max-w-xs p-6 flex flex-col items-center justify-between"
+                key={t.title}
+                className="bg-zinc-900 border border-cyan-800 rounded-sm shadow-lg shadow-cyan-900 max-w-sm p-6 flex flex-col items-center justify-between"
                 data-aos="flip-left"
-                data-aos-delay={i * 200}
+                data-aos-delay={200}
               >
                 <div className="flex flex-col items-center">
                   <FaLinkedin className="text-cyan-500 text-3xl mb-3" />
