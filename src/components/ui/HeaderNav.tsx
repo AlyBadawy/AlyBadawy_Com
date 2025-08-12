@@ -15,7 +15,7 @@ export const HeaderNav = () => {
     { name: "Hire Me", href: "/hire" },
   ];
 
-  const isActive = (href: string) => (pathname === href ? "active" : "");
+  const isActive = (href: string) => (pathname.includes(href) ? "active" : "");
 
   const desktopLinkClasses = (href: string) =>
     `text-cyan-500 pb-2 border-b-2 ${
