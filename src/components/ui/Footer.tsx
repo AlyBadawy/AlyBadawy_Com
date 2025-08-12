@@ -32,13 +32,6 @@ export const Footer = () => {
             <FaGithub />
           </a>
           <a
-            href="mailto:me@alybadawy.com"
-            aria-label="Email"
-            className="text-fuchsia-400 hover:text-fuchsia-200 transition-colors"
-          >
-            <FaEnvelope />
-          </a>
-          <a
             href="https://x.com/AlyBadawy"
             aria-label="X"
             target="_blank"
@@ -46,6 +39,13 @@ export const Footer = () => {
             className="text-green-400 hover:text-green-200 transition-colors"
           >
             <FaXTwitter />
+          </a>
+          <a
+            href="mailto:me@alybadawy.com"
+            aria-label="Email"
+            className="text-fuchsia-400 hover:text-fuchsia-200 transition-colors"
+          >
+            <FaEnvelope />
           </a>
         </div>
       </div>
