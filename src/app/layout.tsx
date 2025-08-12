@@ -10,6 +10,15 @@ export const metadata: Metadata = {
   title: "Home",
   description:
     "Aly Badawy's personal website showcasing skills, projects, and contact information.",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon-32x32.png",
+    apple: "/apple-touch-icon.png",
+    other: {
+      rel: "manifest",
+      url: "/site.webmanifest",
+    },
+  },
 };
 
 export default function RootLayout({
