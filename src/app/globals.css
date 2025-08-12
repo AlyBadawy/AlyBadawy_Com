@@ -12,7 +12,6 @@
   body {
     @apply h-screen overflow-y-auto
     font-normal text-base
-    [font-family:_"Montserrat",_sans-serif]
    text-gray-400 
     bg-zinc-950;
   }

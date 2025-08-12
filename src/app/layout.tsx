@@ -3,6 +3,7 @@ import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { Footer } from "@/components/ui/Footer";
 import { Header } from "@/components/ui/Header";
 import type { Metadata } from "next";
+import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import AOSProvider from "@/components/AOSProvider";
 
@@ -27,7 +28,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning className="!max-w-full">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${GeistSans.className} !max-w-full`}
+    >
       <head>
         <GoogleAnalytics />
         <meta
