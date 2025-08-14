@@ -1,9 +1,7 @@
 import BlogArticle from "@/components/blog/BlogArticle";
-import CategoryProps from "@/types/CategoryProp";
 import YearProps from "@/types/YearProps";
 import { slugify } from "@/utils/Slugify";
 import { allBlogPosts } from "@contentlayer/generated";
-import { SidePanel } from "../../../../components/SidePanel";
 
 export default function CategoryPage({ params }: YearProps) {
   const years = Array.from(

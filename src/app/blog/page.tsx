@@ -2,7 +2,6 @@ import React from "react";
 import BlogPostItems from "./BlogPostItems";
 import { PageOgMeta } from "@/utils/ogMeta";
 import { Metadata } from "next";
-import { SidePanel } from "../../components/SidePanel";
 
 export const generateMetadata = async (): Promise<Metadata> => {
   return await PageOgMeta({

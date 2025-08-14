@@ -1,4 +1,14 @@
+import { PageOgMeta } from "@/utils/ogMeta";
+import { Metadata } from "next";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
+
+export const generateMetadata = async (): Promise<Metadata> => {
+  return await PageOgMeta({
+    title: "Resume",
+    description:
+      "Aly Badawy's resume showcases his expertise as a Senior Software Engineer and Program Technical Lead, highlighting his skills in software development, system design, and DevOps methodologies.",
+  });
+};
 
 export default function ResumePage() {
   return (
