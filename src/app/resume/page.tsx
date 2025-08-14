@@ -38,14 +38,19 @@ export default function ResumePage() {
           </a>
         </div>
         <div className="text-md text-fuchsia-300 font-bold mt-2">
-          Technical Lead & Senior Software Engineer
+          Senior Software Engineer &amp; Program Technical Lead
         </div>
         <div className="text-gray-300 text-base mt-3 max-w-2xl mx-auto text-left">
-          Proven technical leader delivering secure, scalable software and
-          guiding cross-functional teams. Specialized in full-stack development,
-          cloud, DevSecOps, and modern architecture. Active Public Trust
-          Clearance. Passionate about building high-quality systems and driving
-          impactful outcomes.
+          Accomplished Program Technical Lead with deep expertise in DevOps
+          methodologies and hands-on experience across a broad technical
+          toolset. Skilled in leading the end-to-end software development
+          lifecycle, including requirements analysis, solution design,
+          development, testing, implementation, and documentation of
+          enhancements. Recognized for evaluating emerging technical trends and
+          providing strategic recommendations on technology and architecture to
+          align with business objectives. Adept at bridging business and
+          technical priorities to deliver scalable, high-performing solutions in
+          complex environments.
         </div>
       </section>
 
@@ -66,12 +71,12 @@ export default function ResumePage() {
             <li>Git, CI/CD (GitHub Actions, Jenkins)</li>
           </ul>
           <ul className="list-disc ml-5">
-            <li>Agile &amp; Test-Driven Development (TDD)</li>
+            <li>Test-Driven Development (TDD)</li>
             <li>Linux &amp; Windows environments</li>
             <li>iOS (Swift, SwiftUI)</li>
             <li>.NET (C#, VB.NET), Java, C, C++</li>
+            <li>Agile &amp; Kanban methodologies</li>
             <li>PCB &amp; hardware prototyping, IoT &amp; embedded systems</li>
-            <li>Advanced Microsoft Excel</li>
           </ul>
         </div>
       </section>
@@ -94,8 +99,8 @@ export default function ResumePage() {
           </div>
           <ul className="list-disc ml-5 text-gray-300 mt-1 text-sm space-y-1">
             <li>
-              Led a team of 6 building mission-critical Rails/React applications
-              for USCIS (U.S. Dept. of Homeland Security).
+              Led a team of 6 developers building mission-critical Rails/React
+              applications for USCIS (U.S. Dept. of Homeland Security).
             </li>
             <li>
               Drove architecture and delivery of secure, scalable web apps;
@@ -112,6 +117,16 @@ export default function ResumePage() {
             <li>
               Translated complex policy/regulatory needs into actionable, secure
               software features.
+            </li>
+            <li>
+              Solved several very thorny problems involving database efficiency,
+              connection latency issues for certain clients, and integrations
+              with complex business logic.{" "}
+            </li>
+            <li>
+              Wrote a client-facing authoring tool that coded very large forms
+              from simple logic statements. This enabled our clients' to respond
+              to changes in business logic very quickly.
             </li>
           </ul>
         </div>
@@ -203,6 +218,15 @@ export default function ResumePage() {
               June 2006 &mdash; Very Good with second degree of honor
             </span>
           </div>
+        </div>
+      </section>
+
+      <section className="mb-8">
+        <h2 className="text-xl text-cyan-400 font-semibold mb-3 tracking-wide">
+          Security Clearance
+        </h2>
+        <div className="text-gray-300 text-sm">
+          Active U.S. Public Trust Clearance (since 2022)
         </div>
       </section>
 
