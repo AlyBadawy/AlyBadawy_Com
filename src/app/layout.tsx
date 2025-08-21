@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import AOSProvider from "@/components/AOSProvider";
+import PersonJsonLd from "@/components/PersonJsonLd";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -34,6 +35,7 @@ export default function RootLayout({
       className={`${GeistSans.className} !max-w-full`}
     >
       <head>
+        <PersonJsonLd />
         <GoogleAnalytics />
         <meta
           name="viewport"

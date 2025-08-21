@@ -20,7 +20,7 @@ export const HomeHero = () => {
               as a <em>Software Engineer</em>
             </span>
           </h1>
-          <section className="mt-8 max-w-3xl text-gray-400">
+          <section className="mt-8 max-w-3xl text-gray-400" id="bio">
             <p className="font-normal text-dimWhite">
               Hi 👋 I'm <strong>Aly Badawy</strong>,
             </p>
