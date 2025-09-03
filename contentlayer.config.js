@@ -1,5 +1,5 @@
 import rehypePrettyCode from "rehype-pretty-code";
-import { defineDocumentType, makeSource } from "contentlayer/source-files";
+import { defineDocumentType, makeSource } from "contentlayer2/source-files";
 import { BlogFullSlug, BlogSlugParam } from "./src/utils/ComputedSlugs";
 
 /** Computed fields shared across documents */

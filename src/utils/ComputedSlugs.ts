@@ -1,17 +1,24 @@
-import PostProps from '@/types/PostProps';
-import { LocalDocument } from 'contentlayer/source-files';
-import { allBlogPosts } from '@contentlayer/generated';
+import PostProps from "@/types/PostProps";
+import { allBlogPosts } from "@contentlayer/generated";
+
+// Temporary type for contentlayer2 compatibility
+type LocalDocument = {
+  _raw: {
+    flattenedPath: string;
+  };
+};
 
 export const BlogFullSlug = (doc: LocalDocument) => {
   return `/${doc._raw.flattenedPath}`;
 };
 
 export const BlogSlugParam = (doc: LocalDocument) => {
-  return doc._raw.flattenedPath.split('/').slice(2).join('/');
+  return doc._raw.flattenedPath.split("/").slice(2).join("/");
 };
 
-export const getPostFromSlug = async (params: PostProps['params']) => {
-  const slug = params?.slug?.join('/');
+export const getPostFromSlug = async (params: PostProps["params"]) => {
+  const resolvedParams = await params;
+  const slug = resolvedParams?.slug?.join("/");
   if (!slug) {
     return null;
   }

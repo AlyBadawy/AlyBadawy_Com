@@ -3,7 +3,9 @@ import CategoryProps from "@/types/CategoryProp";
 import { slugify } from "@/utils/Slugify";
 import { allBlogPosts } from "@contentlayer/generated";
 
-export default function CategoryPage({ params }: CategoryProps) {
+export default async function CategoryPage({ params }: CategoryProps) {
+  const resolvedParams = await params;
+
   const categories = Array.from(
     new Set(
       allBlogPosts
@@ -13,11 +15,13 @@ export default function CategoryPage({ params }: CategoryProps) {
   );
 
   const category = categories.find(
-    (cat) => cat && slugify(cat).toLowerCase() === params.category.toLowerCase()
+    (cat) =>
+      cat &&
+      slugify(cat).toLowerCase() === resolvedParams.category.toLowerCase()
   );
 
   const posts = allBlogPosts.filter(
-    (p) => slugify(p.category || "").toLowerCase() === params.category
+    (p) => slugify(p.category || "").toLowerCase() === resolvedParams.category
   );
 
   if (!category) {

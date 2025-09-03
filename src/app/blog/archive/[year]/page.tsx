@@ -3,7 +3,9 @@ import YearProps from "@/types/YearProps";
 import { slugify } from "@/utils/Slugify";
 import { allBlogPosts } from "@contentlayer/generated";
 
-export default function CategoryPage({ params }: YearProps) {
+export default async function CategoryPage({ params }: YearProps) {
+  const resolvedParams = await params;
+
   const years = Array.from(
     new Set(
       allBlogPosts.map((post) => post.year).filter((year) => year !== undefined)
@@ -11,14 +13,14 @@ export default function CategoryPage({ params }: YearProps) {
   );
 
   const year = years.find(
-    (yr) => slugify(yr).toLowerCase() === params.year.toLowerCase()
+    (yr) => slugify(yr).toLowerCase() === resolvedParams.year.toLowerCase()
   );
 
   if (!year) {
     return <div className="container mx-auto p-4">No year specified.</div>;
   }
   const posts = allBlogPosts.filter(
-    (p) => slugify(p.year || "").toLowerCase() === params.year
+    (p) => slugify(p.year || "").toLowerCase() === resolvedParams.year
   );
 
   return (

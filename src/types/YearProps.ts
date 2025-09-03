@@ -1,7 +1,7 @@
 type YearProps = {
-  params: {
+  params: Promise<{
     year: string;
-  };
+  }>;
 };
 
 export default YearProps;

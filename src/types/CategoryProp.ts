@@ -1,7 +1,7 @@
 type CategoryProps = {
-  params: {
+  params: Promise<{
     category: string;
-  };
+  }>;
 };
 
 export default CategoryProps;

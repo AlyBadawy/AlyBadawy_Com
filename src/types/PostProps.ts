@@ -1,7 +1,7 @@
 type PostProps = {
-  params: {
+  params: Promise<{
     slug: string[];
-  };
+  }>;
 };
 
 export default PostProps;
