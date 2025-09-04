@@ -12,7 +12,7 @@
   body {
     @apply h-screen overflow-y-auto
     font-normal text-base
-   text-gray-400 
+    text-gray-400 
     bg-zinc-950;
   }
 
@@ -23,6 +23,10 @@
 
   p {
     @apply mb-4 text-lg/7;
+  }
+
+  pre {
+    @apply p-2 pl-4 border-slate-700 rounded-lg border-2 mb-4;
   }
 
   article a h2 {

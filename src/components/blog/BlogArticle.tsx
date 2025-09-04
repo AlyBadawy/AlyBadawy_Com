@@ -48,8 +48,8 @@ export const BlogArticle = ({ post, index }: BlogArticleProps) => {
           href={post.fullSlug}
           className="inline-block text-sm font-medium text-primary hover:underline"
         >
-          <span>
-            <LinkIcon size={16} className="text-gray-400" /> Read More →
+          <span className="flex items-center gap-1 justify-between">
+            <LinkIcon size={14} className="text-gray-400 inline " /> Read More →
           </span>
         </Link>
       </div>
