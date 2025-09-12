@@ -32,7 +32,7 @@ export default async function CategoryPage({ params }: CategoryProps) {
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-semibold mb-6">Category: {category}</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+      <div className="grid grid-cols-1 gap-8 mt-8">
         {posts
           .sort((a, b) => b.date.localeCompare(a.date))
           .map((post, index) => (

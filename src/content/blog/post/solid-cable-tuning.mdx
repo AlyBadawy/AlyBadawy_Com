@@ -1,16 +1,17 @@
 ---
-title: 'Solid Cable in Rails 8: Tuning, Edge Cases & Real‑Time Scaling (Part 2)'
+title: "Solid Cable in Rails 8: Tuning, Edge Cases & Real‑Time Scaling (Part 2)"
 date: 2025-03-20
 category: Ruby on Rails
 description: Dive deeper into Solid Cable by learning how to configure polling, retention, and multi‑database setups and how to deal with large payloads and scaling challenges.
 ---
+
 In our previous post we introduced **Solid Cable**, Rails 8’s built‑in WebSocket adapter that runs on your existing database. While the defaults work well for small to medium applications, you can squeeze more performance and reliability out of Solid Cable by tuning its settings and understanding its limitations. In this installment I’ll share techniques I’ve used in production to handle higher throughput, reduce latency and avoid edge cases.
 
 ## Adjusting polling and retention
 
 When your database supports `LISTEN/NOTIFY` (PostgreSQL) Solid Cable sends notifications as soon as you broadcast a message. For other databases the adapter falls back to polling the `solid_cable_messages` table. The `polling_interval` controls how often it checks for new messages. Decreasing this interval reduces latency but increases database load; increasing it does the opposite. In most applications I’ve found values between **50 ms** and **100 ms** strike a good balance:
 
-```yaml
+```yaml showLineNumbers
 production:
   adapter: solid_cable
   polling_interval: 0.05 # 50ms
@@ -21,7 +22,7 @@ Message retention determines how long sent messages remain in the database befor
 
 If you experience high latency when using the polling mode, consider increasing the number of polling workers. Solid Cable spawns a single thread to poll for messages by default. You can configure additional pollers by setting `poller_concurrency` in your `cable.yml`:
 
-```yaml
+```yaml showLineNumbers
 production:
   adapter: solid_cable
   polling_interval: 0.05
@@ -34,9 +35,9 @@ This setting starts four threads polling the table, reducing the chance of missi
 
 `LISTEN/NOTIFY` in PostgreSQL imposes a payload size limit (around 8 KB). If you attempt to broadcast a message larger than this limit, Solid Cable falls back to storing the payload in the database and sending only a reference via `NOTIFY`. This adds an extra round trip and some latency. To mitigate the impact:
 
-* **Compress your payloads:** Instead of sending raw JSON objects or large HTML fragments, consider sending identifiers and have clients fetch the data via HTTP. This is often faster and avoids hitting the NOTIFY limit.
-* **Use binary encoding:** Rails’ built‑in `ActionCable.server.broadcast` accepts binary data. If your payload can be encoded as a binary blob you may stay under the limit.
-* **Chunk messages:** For real‑time updates like collaborative editors you can break large diffs into smaller patches and broadcast them separately.
+- **Compress your payloads:** Instead of sending raw JSON objects or large HTML fragments, consider sending identifiers and have clients fetch the data via HTTP. This is often faster and avoids hitting the NOTIFY limit.
+- **Use binary encoding:** Rails’ built‑in `ActionCable.server.broadcast` accepts binary data. If your payload can be encoded as a binary blob you may stay under the limit.
+- **Chunk messages:** For real‑time updates like collaborative editors you can break large diffs into smaller patches and broadcast them separately.
 
 If you routinely exceed the NOTIFY limit and cannot refactor, you might revert to a dedicated broker like Redis for that specific channel. Solid Cable is flexible—you can configure different adapters per environment or per channel class if necessary.
 
@@ -44,7 +45,7 @@ If you routinely exceed the NOTIFY limit and cannot refactor, you might revert t
 
 Large applications often split their data across multiple databases for scalability. How does Solid Cable behave in this situation? By default, Solid Cable uses Rails’ `Primary` database connection. If your application runs on multiple databases, you can tell Solid Cable which connection to use by setting `database` in `cable.yml`:
 
-```yaml
+```yaml showLineNumbers
 production:
   adapter: solid_cable
   database: primary_readonly
@@ -59,10 +60,10 @@ In sharded environments where each tenant has its own database, you can mount mu
 
 As with any system, you should monitor Solid Cable’s performance and health. Useful metrics include:
 
-* **Message latency:** Measure the time from broadcast to receipt in the client. You can instrument your application to log these durations or embed timestamps in messages and compute round‑trip times on the client.
-* **Poller lag:** Track how long messages stay in the `solid_cable_messages` table before being processed. If lag grows, increase poller concurrency or reduce the polling interval.
-* **Database load:** Monitor your database CPU, I/O and connections. Bursts of WebSocket traffic will increase activity on the `solid_cable_messages` table.
-* **Error rates:** Log exceptions raised by your channels. Since Solid Cable stores messages in the database, failed broadcasts won’t automatically retry. Handle errors gracefully and notify your development team.
+- **Message latency:** Measure the time from broadcast to receipt in the client. You can instrument your application to log these durations or embed timestamps in messages and compute round‑trip times on the client.
+- **Poller lag:** Track how long messages stay in the `solid_cable_messages` table before being processed. If lag grows, increase poller concurrency or reduce the polling interval.
+- **Database load:** Monitor your database CPU, I/O and connections. Bursts of WebSocket traffic will increase activity on the `solid_cable_messages` table.
+- **Error rates:** Log exceptions raised by your channels. Since Solid Cable stores messages in the database, failed broadcasts won’t automatically retry. Handle errors gracefully and notify your development team.
 
 When debugging, remember that messages may linger in the table due to retention settings. If you’re seeing unexpected behavior, inspect the table with SQL and verify that your pollers are running. You can temporarily reduce retention for faster cleanup while testing.
 

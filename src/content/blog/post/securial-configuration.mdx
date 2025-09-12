@@ -1,16 +1,17 @@
 ---
-title: 'Configuring Securial: Roles, Sessions and Customization'
+title: "Configuring Securial: Roles, Sessions and Customization"
 date: 2025-07-10
 category: Ruby on Rails
 description: Explore the configuration options provided by the Securial gem, including how to customize session expiration, roles and other settings to fit your Rails application.
 ---
+
 After installation, Securial generates an initializer where you can customize its behavior. It comes with sensible defaults but offers full control over logging, mailers, session settings and roles. In my projects I treat the initializer as the central place to align the gem’s functionality with the security posture and user experience that each application demands.
 
 ## Session settings
 
 Securial uses signed tokens for authentication. You can control how long a session lasts, when refresh tokens expire and where tokens are stored. All of these parameters live in `config/initializers/securial.rb`. For example, to issue short‑lived access tokens while keeping refresh tokens valid for a week, you might write:
 
-```ruby
+```ruby showLineNumbers
 Securial.configure do |config|
   # Token expires after 30 minutes
   config.jwt_expiration_time = 30.minutes
@@ -27,7 +28,7 @@ Balancing security and convenience often involves tuning these values. In an ent
 
 Role‑based access control is another core feature. By default Securial creates a `roles` table and associates roles with users. You can define your own roles such as `admin`, `moderator` or `member` by seeding them in your database. A simple migration might look like this:
 
-```ruby
+```ruby showLineNumbers
 class SeedRoles < ActiveRecord::Migration[7.1]
   def change
     %w[admin moderator member].each do |name|
@@ -39,7 +40,7 @@ end
 
 Once roles exist, authorize actions in your controllers with helpers provided by Securial:
 
-```ruby
+```ruby showLineNumbers
 class Admin::DashboardController < ApplicationController
   include Securial::Authorization
 
@@ -57,7 +58,7 @@ This pattern scales from simple role checks to more granular permission schemes.
 
 Securial integrates with Rails’ built‑in `ActiveSupport::Logger`, so you can tailor log levels and output formats. This is useful when running in production behind centralized logging services. In the initializer you can hook Securial’s logger into your own:
 
-```ruby
+```ruby showLineNumbers
 Securial.configure do |config|
   config.logger = Rails.logger
 end
@@ -69,7 +70,7 @@ Mailers can be customized to match your brand’s voice. Securial provides views
 
 One of the best parts of Securial is that it doesn’t lock you in. Because it mounts an engine, you can override any of its controllers or serializers in your main application. Suppose you want to add a `display_name` field to the JSON returned for a user account:
 
-```ruby
+```ruby showLineNumbers
 module Securial
   class AccountsController < Securial::ApplicationController
     def show

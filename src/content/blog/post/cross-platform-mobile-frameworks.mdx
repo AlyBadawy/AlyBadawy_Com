@@ -1,9 +1,10 @@
 ---
-title: 'Cross‑Platform Mobile Frameworks: Flutter vs React Native vs Native'
+title: "Cross‑Platform Mobile Frameworks: Flutter vs React Native vs Native"
 date: 2024-06-25
 category: Mobile Development
 description: Evaluate cross‑platform frameworks Flutter and React Native, understand their strengths and consider when native development might be the better choice.
 ---
+
 The dream of writing an app once and running it everywhere has fueled the rise of cross‑platform mobile frameworks. As a consultant working with startups, I’ve watched product teams wrestle with the trade‑offs between shipping quickly and delivering a polished, native experience. Flutter and React Native dominate the conversation today, while native development remains the baseline for performance‑sensitive applications.
 
 ## Flutter
@@ -12,7 +13,7 @@ Flutter uses Google’s Dart language and bundles its own Skia‑based rendering
 
 Here is a tiny Flutter app that displays “Hello, world” using a `StatelessWidget`:
 
-```dart
+```dart showLineNumbers
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
@@ -41,14 +42,16 @@ React Native leverages JavaScript and React concepts you may already know from b
 
 Here’s a basic React Native component using functional syntax and hooks:
 
-```jsx
-import React from 'react';
-import { SafeAreaView, Text, Button } from 'react-native';
+```jsx showLineNumbers
+import React from "react";
+import { SafeAreaView, Text, Button } from "react-native";
 
 export default function App() {
   const [count, setCount] = React.useState(0);
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <SafeAreaView
+      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+    >
       <Text>You pressed {count} times.</Text>
       <Button title="Press me" onPress={() => setCount(count + 1)} />
     </SafeAreaView>

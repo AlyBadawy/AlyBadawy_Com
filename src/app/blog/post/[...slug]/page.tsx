@@ -29,7 +29,7 @@ const PostPage = async ({ params }: PostProps) => {
     <div className="container mx-auto">
       <section
         id="solutions"
-        className="flex flex-col lg:flex-row gap-12 p-4 pt-14"
+        className="flex flex-col lg:flex-row gap-12 p-4 pt-0"
       >
         <PostView post={post} />
       </section>

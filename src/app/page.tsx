@@ -1,5 +1,4 @@
 import { ContactHireSection } from "@/components/home/ContactHireSection";
-import { HireSection } from "@/components/home/HireSection";
 import { HomeHero } from "@/components/home/HomeHero";
 import { HomeSolutionSection } from "@/components/home/HomeSolutionSection";
 import { PortfolioSection } from "@/components/home/PortfolioSection";
@@ -21,10 +20,9 @@ export default function Home() {
     <>
       <HomeHero />
       <HomeSolutionSection />
-      <HireSection />
-      <PortfolioSection />
       <QuickStats />
       <TestimonialsSection />
+      {/* <PortfolioSection /> */}
       <ContactHireSection />
     </>
   );

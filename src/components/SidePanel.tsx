@@ -19,23 +19,23 @@ export const SidePanel = () => {
   );
 
   return (
-    <aside className="space-y-6 pl-8 border-l border-slate-200 dark:border-slate-700">
+    <aside className="bg-zinc-950 rounded-2xl shadow-xl border-2 border-cyan-400/20 p-8 space-y-8 w-full max-w-full mx-auto">
       <div>
         <h3
-          className="text-lg font-semibold mb-3 text-gradient"
+          className="text-xl font-bold mb-4 text-fuchsia-400 text-center"
           data-aos="fade-up"
           data-aos-once="true"
         >
           Categories
         </h3>
-        <ul className="space-y-1 text-sm text-slate-600 dark:text-slate-300">
+        <ul className="space-y-2 text-base">
           {categories.map((category) => (
             <li
               key={category}
               data-aos="flip-left"
-              className="hover:text-cyan-500"
+              className="hover:text-cyan-400 transition-colors duration-150"
             >
-              <LinkIcon size={10} className="text-gray-400 inline" />{" "}
+              <LinkIcon size={16} className="text-cyan-400 inline mr-2" />
               <Link href={`/blog/category/${slugify(category)}`}>
                 {category}
               </Link>
@@ -46,15 +46,19 @@ export const SidePanel = () => {
 
       <div>
         <h3
-          className="text-lg font-semibold mb-3 text-gradient"
+          className="text-xl font-bold mb-4 text-fuchsia-400 text-center"
           data-aos="fade-up"
         >
           Archive
         </h3>
-        <ul className="space-y-1 text-sm text-slate-600 dark:text-slate-300">
+        <ul className="space-y-2 text-base">
           {years.map((year) => (
-            <li key={year} data-aos="flip-left" className="hover:text-cyan-500">
-              <LinkIcon size={10} className="text-gray-400 inline" />{" "}
+            <li
+              key={year}
+              data-aos="flip-left"
+              className="hover:text-cyan-400 transition-colors duration-150"
+            >
+              <LinkIcon size={16} className="text-cyan-400 inline mr-2" />
               <Link href={`/blog/archive/${year}`}>{year}</Link>
             </li>
           ))}

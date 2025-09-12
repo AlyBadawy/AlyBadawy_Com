@@ -1,9 +1,10 @@
 ---
-title: 'Solid Cable in Rails 8: Simplifying WebSocket Layers (Part 1)'
+title: "Solid Cable in Rails 8: Simplifying WebSocket Layers (Part 1)"
 date: 2025-03-05
 category: Ruby on Rails
 description: Learn how Solid Cable replaces Redis for Action Cable messaging using your database, making real‑time features easier to deploy.
 ---
+
 The web has become increasingly real‑time. Notifications, collaborative editing and live dashboards are expected features in modern applications. Rails has long offered **Action Cable** as its WebSocket framework, but historically it required a separate message broker like Redis to fan out messages between server processes. With Rails 8, that last external dependency disappears. **Solid Cable** is a database‑backed Action Cable adapter that uses your existing database to broadcast messages to connected clients.
 
 In this post I’ll explain how Solid Cable works, why it was created and how you can start using it in your Rails 8 applications. I remember being skeptical at first—can a database handle real‑time messaging without turning into a bottleneck?—but after trying it in production I’m convinced it’s a compelling alternative.
@@ -18,7 +19,7 @@ Solid Cable uses different strategies depending on your database. For PostgreSQL
 
 Getting started with Solid Cable is straightforward. If you’re on Rails 8 you already have the gems in your bundle. For older versions you can add the gem manually:
 
-```ruby
+```ruby showLineNumbers
 # Gemfile
 gem 'solid_cable'
 
@@ -28,13 +29,13 @@ bundle install
 
 Next run the installer to generate configuration files and database migrations:
 
-```bash
+```bash showLineNumbers
 bin/rails solid_cable:install
 ```
 
 This creates a migration that adds the `solid_cable_messages` table and a `config/cable.yml` file. In `cable.yml` you specify the adapter and options. To enable Solid Cable in development and production:
 
-```yaml
+```yaml showLineNumbers
 development:
   adapter: solid_cable
   polling_interval: 0.1
@@ -48,7 +49,7 @@ production:
 
 Here `polling_interval` controls how often Solid Cable checks for new messages when not using `NOTIFY`, and `message_retention` specifies how long messages remain in the database before being pruned. Choose a retention period long enough for slow consumers to catch up but not so long that the table grows indefinitely. After editing `cable.yml`, run the migration:
 
-```bash
+```bash showLineNumbers
 bin/rails db:migrate
 ```
 
@@ -58,7 +59,7 @@ Finally, start your Rails server and it will automatically use Solid Cable inste
 
 To send messages over Solid Cable you use the familiar `broadcast` helpers. Suppose you have a `ChatChannel` that streams messages to a room:
 
-```ruby
+```ruby showLineNumbers
 class ChatChannel < ApplicationCable::Channel
   def subscribed
     stream_for room

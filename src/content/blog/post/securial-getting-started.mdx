@@ -1,9 +1,10 @@
 ---
-title: 'Getting Started with Securial: Authentication for Rails'
+title: "Getting Started with Securial: Authentication for Rails"
 date: 2025-07-01
 category: Ruby on Rails
 description: Discover the Securial gem—a mountable Rails engine providing robust authentication and access control—and learn how to install it in your application.
 ---
+
 Securial is a mountable Rails engine that delivers a flexible authentication and access control system for Rails applications. I created this gem after repeatedly building similar login and authorization features across multiple projects. Instead of copying code from project to project, I decided to package everything into a reusable engine that supports JWT‑based authentication, API session tokens and traditional session cookies. Whether you’re building a single‑page web app or a native mobile client, Securial’s API‑first design provides clean JSON responses out of the box.
 
 ## Why Securial?
@@ -16,26 +17,26 @@ Because Securial returns JSON by default, it’s perfect for applications that c
 
 Adding Securial to an existing Rails app is straightforward. First include the gem in your `Gemfile` and install it:
 
-```ruby
+```ruby showLineNumbers
 # Gemfile
 gem 'securial'
 ```
 
 Then run the bundler to download and install the gem:
 
-```bash
+```bash showLineNumbers
 bundle install
 ```
 
 Next generate Securial’s configuration files, models and migrations:
 
-```bash
+```bash showLineNumbers
 rails generate securial:install
 ```
 
 This command creates an initializer (`config/initializers/securial.rb`) where you can tweak settings, as well as migration files for creating the necessary tables. Once the files are in place, mount the engine in your routes file to expose the API endpoints:
 
-```ruby
+```ruby showLineNumbers
 # config/routes.rb
 Rails.application.routes.draw do
   mount Securial::Engine => '/securial'
@@ -45,13 +46,13 @@ end
 
 Finally, run the migrations to set up the database tables:
 
-```bash
+```bash showLineNumbers
 rails db:migrate
 ```
 
 If you’d rather start fresh, Securial includes a command to scaffold an entire Rails application with everything preconfigured:
 
-```bash
+```bash showLineNumbers
 securial new my_app
 cd my_app
 rails server

@@ -1,9 +1,10 @@
 ---
-title: 'Using Securial: API Endpoints and Modules'
+title: "Using Securial: API Endpoints and Modules"
 date: 2025-07-15
 category: Ruby on Rails
 description: Get hands‑on with Securial’s API by exploring available endpoints for sessions, accounts and roles, and understand the modular components that power them.
 ---
+
 Once Securial is installed and configured, it exposes a set of RESTful endpoints and modules. During development of my own applications, I found it helpful to explore these endpoints with cURL and Postman before wiring up a front‑end. Understanding what’s available allows you to design client flows without guessing at server behavior.
 
 ## Key endpoints
@@ -34,7 +35,7 @@ This modularity makes it easy to extend one piece without affecting others. For 
 
 To sign in a user, send a `POST` request to `/securial/sessions` with their credentials. Using cURL, the request looks like this:
 
-```bash
+```bash showLineNumbers
 curl -X POST https://yourapp.com/securial/sessions \
   -H 'Content-Type: application/json' \
   -d '{"email_address": "user@example.com", "password": "secret"}'
@@ -44,12 +45,12 @@ The response body contains a JSON object with a `session_token` and `refresh_tok
 
 If you’re building a JavaScript client, you can wrap these calls in a helper function:
 
-```javascript
+```javascript showLineNumbers
 async function signIn(email, password) {
-  const res = await fetch('/securial/sessions', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email_address: email, password })
+  const res = await fetch("/securial/sessions", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email_address: email, password }),
   });
   const data = await res.json();
   // store data.session_token and data.refresh_token securely

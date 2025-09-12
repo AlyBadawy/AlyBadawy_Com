@@ -6,45 +6,41 @@ export const generateMetadata = async (): Promise<Metadata> => {
   return await PageOgMeta({
     title: "Hire me for your next project",
     description:
-      "Whether you have a specific software challenge in mind, need assistance in optimizing your systems, or are venturing into uncharted digital territories, your insights will provide the foundation for a successful collaboration.",
+      "Work with Aly Badawy to build production-ready, scalable solutions tailored to your vision.",
   });
 };
 
 export default function Hire() {
   return (
-    <div className="container mx-auto">
-      <section className="flex flex-col p-4 pt-8 ">
-        <h2 className="text-2xl md:text-4xl font-semibold text-gradient md:leading-normal">
+    <div className="container mx-auto px-4 py-12 flex flex-col md:flex-row gap-8 items-stretch justify-center min-h-[600px]">
+      {/* Intro Card */}
+      <section className="flex-1 bg-gradient-to-br from-purple-900 via-zinc-950 to-cyan-900 rounded-2xl shadow-xl p-8 mb-8 md:mb-0 border-2 border-fuchsia-400/30 flex flex-col justify-between min-h-[600px] h-full">
+        <h2
+          className="text-3xl md:text-4xl font-bold mb-4 text-fuchsia-400 text-center"
+          data-aos="fade-up"
+        >
           Hire me for your next project
         </h2>
-
-        <div className="flex flex-col justify-between items-start my-4 gap-8">
-          <div className="flex-1 flex flex-col gap-4">
-            <p>Ready to take the next step?</p>
-            <p>
-              I&apos;m here to make your project a reality. To get started,
-              please take a moment to fill out the form below. Your project
-              details are invaluable in understanding your goals and
-              requirements. Whether you have a specific software challenge in
-              mind, need assistance in optimizing your systems, or are venturing
-              into uncharted digital territories, your insights will provide the
-              foundation for a successful collaboration. Rest assured that every
-              piece of information you share will be handled with the utmost
-              confidentiality.
-            </p>
-            <p>
-              Once you&apos;ve submitted the form, I&apos;ll personally review
-              your project details within the next 48 hours. This initial phase
-              is essential in grasping the scope and potential of your project.
-              Whether it&apos;s a software solution, system enhancement, or
-              innovative concept, your vision is the driving force behind our
-              collaboration. Be ready to embark on a journey where your
-              aspirations meet my expertise. I&apos;m excited to connect with
-              you and explore how we can together create solutions that reshape
-              industries and exceed expectations. Thank you for considering me
-              as a partner in your journey to digital excellence.
-            </p>
-          </div>
+        <div className="flex flex-col gap-4 text-gray-300 text-base flex-1 justify-center">
+          <p>Ready to get started?</p>
+          <p>
+            Share your project details below. I build robust, production-ready
+            solutions tailored to your needs—whether it’s a web app, embedded
+            system, or something new. Your info is confidential and helps me
+            deliver the best results.
+          </p>
+          <p>
+            I’ll review your submission and get back to you within 48 hours.
+            Let’s turn your vision into reality.
+          </p>
+        </div>
+      </section>
+      {/* Form Card */}
+      <section className="flex-1 bg-zinc-950 rounded-2xl shadow-xl p-8 border-2 border-cyan-400/30 flex flex-col justify-between min-h-[600px] h-full">
+        <h3 className="text-xl font-semibold mb-4 text-cyan-400 text-center">
+          Contact Form
+        </h3>
+        <div className="w-full flex-1 flex flex-col justify-center">
           <HireForm />
         </div>
       </section>

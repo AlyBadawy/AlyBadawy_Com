@@ -1,5 +1,5 @@
 ---
-title: 'Backup Ubuntu to TAR file'
+title: "Backup Ubuntu to TAR file"
 date: 2022-04-14
 category: Operating Systems
 description: Learn how to create periodic system backups on Ubuntu using a simple shell script. This process is essential for security and disaster recovery
@@ -12,7 +12,15 @@ However, it turns out to be a very simple process to perform. You may also want 
 ```bash showLineNumbers
 #!/bin/sh
 cd /
-tar -cvpzf /root/backup/backup.tar.gz --exclude=/root/backup --exclude=/proc --exclude=/lost+found --exclude=/sys --exclude=/mnt --exclude=/media --exclude=/dev -C /
+tar -cvpzf /root/backup/backup.tar.gz \
+  --exclude=/root/backup \
+  --exclude=/proc \
+  --exclude=/lost+found \
+  --exclude=/sys \
+  --exclude=/mnt \
+  --exclude=/media \
+  --exclude=/dev \
+  -C /
 ```
 
 ### A brief explanation:
@@ -54,6 +62,15 @@ Sometimes, you may need to keep historical copies of your backup images, or you 
 
 This will allow you to keep historical copies of your system, allowing you the option of a time-machine-like mechanism. to do this just change the TAR command to be:
 
-```bash showLineNumbers
-tar -cvpzf /root/backup/backup-`date '+%F'`.tar.gz --exclude=/root/backup --exclude=/proc --exclude=/lost+found --exclude=/sys --exclude=/mnt --exclude=/media -C /
+bash showLineNumbers
+tar -cvpzf /root/backup/backup-`date '+%F'`.tar.gz \
+ --exclude=/root/backup \
+ --exclude=/proc \
+ --exclude=/lost+found \
+ --exclude=/sys \
+ --exclude=/mnt \
+ --exclude=/media -C /
+
+```
+
 ```

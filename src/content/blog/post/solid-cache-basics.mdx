@@ -1,9 +1,10 @@
 ---
-title: 'Solid Cache in Rails 8: Disk‑Based Caching for Persistent Speed (Part 1)'
+title: "Solid Cache in Rails 8: Disk‑Based Caching for Persistent Speed (Part 1)"
 date: 2025-04-05
 category: Ruby on Rails
 description: Explore Solid Cache, Rails 8’s new disk‑backed cache store, and learn how it provides durable, high‑capacity caching without relying on Redis or Memcached.
 ---
+
 Caching is one of the most effective ways to speed up web applications. By storing expensive computations or rendered fragments, you avoid repeating the same work for every request. Traditionally Rails developers have reached for in‑memory stores like Redis or Memcached when they need to cache results. These stores are blazing fast, but they have limitations: they require running a separate service, they’re constrained by available memory and their contents are volatile—restart the process or flush the store and your cached data is gone. With Rails 8, there’s a new option: **Solid Cache**, a disk‑backed caching layer that is persistent, resilient and ships out of the box.
 
 I first encountered Solid Cache while porting an application with heavy fragment caching from Rails 7. We had used Memcached for years, but occasional evictions and lost caches after server restarts were causing headaches. Solid Cache promised to eliminate those issues by writing cache entries to disk with efficient indexing, similar to how a database stores records. Let’s explore how it works and how to get started.
@@ -18,7 +19,7 @@ Another advantage is cost. Running an in‑memory cache like Redis at scale ofte
 
 Solid Cache is installed by default with Rails 8. If you’re upgrading an older application, add the gem to your Gemfile:
 
-```ruby
+```ruby showLineNumbers
 # Gemfile
 gem 'solid_cache'
 
@@ -28,7 +29,7 @@ bundle install
 
 Next you need to choose Solid Cache as your cache store. In `config/environments/production.rb` (or any environment) set the `cache_store`:
 
-```ruby
+```ruby showLineNumbers
 # config/environments/production.rb
 Rails.application.configure do
   config.cache_store = :solid_cache, expires_in: 30.days, namespace: 'myapp'
@@ -41,7 +42,7 @@ The `expires_in` option sets a default time‑to‑live for entries (entries can
 
 Once configured, you interact with Solid Cache using Rails’ standard caching API. For example, to cache an expensive calculation:
 
-```ruby
+```ruby showLineNumbers
 class AnalyticsController < ApplicationController
   def index
     @stats = Rails.cache.fetch("stats", expires_in: 1.hour) do
@@ -55,7 +56,7 @@ end
 
 The first time `index` is called, the block executes and the result is written to the cache on disk. Subsequent calls within the hour return the cached value immediately. Because the cache is persisted on disk, even if your server process is restarted (for example, during a deploy), the `stats` entry remains available. You can use the same API to cache rendered fragments in views:
 
-```erb
+```erb showLineNumbers
 <% cache @user, version: @user.updated_at do %>
   <!-- heavy partial that displays user profile -->
   <%= render 'profile', user: @user %>
@@ -68,13 +69,13 @@ Rails generates a cache key based on the object and the supplied version; Solid 
 
 While disk storage is plentiful, it’s not infinite. Solid Cache uses a log‑structured storage engine that automatically evicts the oldest entries when the cache directory reaches its size limit. You can configure this limit with the `max_size` option:
 
-```ruby
+```ruby showLineNumbers
 config.cache_store = :solid_cache, max_size: 100.gigabytes
 ```
 
 Solid Cache periodically compacts old segments and reclaims space. Monitor disk usage and adjust `max_size` based on your host’s capacity and your application’s needs. Because entries live on disk, they’re susceptible to being read by anyone with file system access. If you cache sensitive data, enable encryption:
 
-```ruby
+```ruby showLineNumbers
 config.cache_store = :solid_cache, encrypt: true, expires_in: 60.days
 ```
 

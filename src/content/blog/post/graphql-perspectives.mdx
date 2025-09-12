@@ -11,7 +11,7 @@ From the front‑end perspective, GraphQL is liberating. The API exposes a stron
 
 Here is an example query that demonstrates this power:
 
-```graphql
+```graphql showLineNumbers
 query UserWithPosts {
   user(id: 1) {
     id
@@ -33,7 +33,7 @@ Performance is another concern. Complex, deeply nested GraphQL queries can lead 
 
 Imagine a naive GraphQL query such as:
 
-```graphql
+```graphql showLineNumbers
 query Everything {
   users {
     posts {

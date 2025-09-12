@@ -14,7 +14,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
 export default function Blog() {
   return (
     <div className="container mx-auto">
-      <section className="flex flex-col p-4 pt-14">
+      <section className="flex flex-col p-4">
         <h2 className="text-2xl md:text-4xl font-semibold text-gradient md:leading-normal">
           The Blog: Insights on Modern Software Development
         </h2>

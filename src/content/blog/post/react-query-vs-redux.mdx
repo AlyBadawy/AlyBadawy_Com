@@ -1,9 +1,10 @@
 ---
-title: 'React Query vs Redux: Managing State in Modern React Apps'
+title: "React Query vs Redux: Managing State in Modern React Apps"
 date: 2024-06-10
 category: Web Development
 description: Compare React Query and Redux to understand how they solve different state management problems and when to use each in your React applications.
 ---
+
 State management in React often involves both client‑side UI state and server‑provided data. React Query and Redux address these concerns differently, and finding the right tool depends on what kind of state you’re dealing with.
 
 ## The challenge of state management
@@ -16,27 +17,33 @@ React Query is a library dedicated to handling asynchronous data. Instead of spr
 
 Here is a simplified example using React Query to fetch blog posts:
 
-```jsx
-import { useQuery } from '@tanstack/react-query'
+```jsx showLineNumbers
+import { useQuery } from "@tanstack/react-query";
 
 function PostList() {
-  const { data: posts, isLoading, error } = useQuery({
-    queryKey: ['posts'],
+  const {
+    data: posts,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["posts"],
     queryFn: async () => {
-      const res = await fetch('/api/posts')
-      if (!res.ok) throw new Error('Network response was not ok')
-      return res.json()
+      const res = await fetch("/api/posts");
+      if (!res.ok) throw new Error("Network response was not ok");
+      return res.json();
     },
-    staleTime: 1000 * 60 * 5 // cache posts for 5 minutes
-  })
+    staleTime: 1000 * 60 * 5, // cache posts for 5 minutes
+  });
 
-  if (isLoading) return <p>Loading…</p>
-  if (error) return <p>Could not load posts</p>
+  if (isLoading) return <p>Loading…</p>;
+  if (error) return <p>Could not load posts</p>;
   return (
     <ul>
-      {posts.map(post => <li key={post.id}>{post.title}</li>)}
+      {posts.map((post) => (
+        <li key={post.id}>{post.title}</li>
+      ))}
     </ul>
-  )
+  );
 }
 ```
 
@@ -48,20 +55,24 @@ Redux, on the other hand, excels at managing synchronous UI state and sharing it
 
 A typical slice for a counter might look like this:
 
-```tsx
-import { createSlice } from '@reduxjs/toolkit'
+```tsx showLineNumbers
+import { createSlice } from "@reduxjs/toolkit";
 
 const counterSlice = createSlice({
-  name: 'counter',
+  name: "counter",
   initialState: { value: 0 },
   reducers: {
-    increment(state) { state.value += 1 },
-    decrement(state) { state.value -= 1 }
-  }
-})
+    increment(state) {
+      state.value += 1;
+    },
+    decrement(state) {
+      state.value -= 1;
+    },
+  },
+});
 
-export const { increment, decrement } = counterSlice.actions
-export default counterSlice.reducer
+export const { increment, decrement } = counterSlice.actions;
+export default counterSlice.reducer;
 ```
 
 Connecting Redux state to components using `useSelector` and dispatching actions keeps your UI in sync. However, using Redux for server data often leads to stale caches or complex invalidation logic, because Redux wasn’t designed to manage asynchronous lifecycles by default.

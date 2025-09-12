@@ -16,18 +16,18 @@ export const BlogArticle = ({ post, index }: BlogArticleProps) => {
   return (
     <article
       key={post._id}
-      className="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 p-5 flex flex-col justify-between"
+      className="bg-zinc-950 border-2 border-cyan-400/20 hover:border-fuchsia-400/40 rounded-2xl shadow-xl transition-all duration-200 p-8 flex flex-col justify-between"
       data-aos="fade-up"
       data-aos-delay={(index % 3) * 100}
     >
       <div>
         <Link href={post.fullSlug}>
-          <h2 className="text-lg font-semibold text-cyan-500 hover:underline flex items-center gap-2">
+          <h2 className="text-2xl font-bold text-fuchsia-400 hover:underline mb-2 flex items-center gap-2">
             {post.title}
           </h2>
         </Link>
         {post.date && (
-          <p className="text-xs italic opacity-70 mt-1">
+          <p className="text-xs italic text-cyan-400 mb-2">
             {new Date(post.date).toLocaleDateString("en-US", {
               weekday: "long",
               year: "numeric",
@@ -37,19 +37,23 @@ export const BlogArticle = ({ post, index }: BlogArticleProps) => {
           </p>
         )}
         {post.description && (
-          <p className="text-sm text-gray-600 dark:text-gray-300 mt-3 line-clamp-3">
+          <p className="text-base text-gray-300 mt-2 line-clamp-3">
             {post.description}
           </p>
         )}
       </div>
 
-      <div className="mt-4">
+      <div className="mt-6">
         <Link
           href={post.fullSlug}
-          className="inline-block text-sm font-medium text-primary hover:underline"
+          className="inline-block text-sm font-semibold text-cyan-400 hover:text-fuchsia-400 transition-colors duration-200 hover:underline"
         >
-          <span className="flex items-center gap-1 justify-between">
-            <LinkIcon size={14} className="text-gray-400 inline " /> Read More →
+          <span className="flex items-center gap-2 justify-between">
+            <LinkIcon
+              size={16}
+              className="text-cyan-400 group-hover:text-fuchsia-400 transition-colors duration-200"
+            />{" "}
+            Read More
           </span>
         </Link>
       </div>

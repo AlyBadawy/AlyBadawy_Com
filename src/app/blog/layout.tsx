@@ -6,16 +6,11 @@ export default function BlogLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex flex-col md:flex-row gap-6">
-        {/* Main content */}
-        <main className="flex-1">{children}</main>
-
-        {/* Sticky Side Panel */}
-        <aside className="w-full md:w-64 lg:w-72 md:sticky md:top-44 self-start">
-          <SidePanel />
-        </aside>
-      </div>
+    <div className="container mx-auto px-4 py-12 flex flex-col lg:flex-row-reverse gap-8 items-start">
+      <aside className="w-full lg:w-64 flex-shrink-0">
+        <SidePanel />
+      </aside>
+      <main className="flex-1">{children}</main>
     </div>
   );
 }

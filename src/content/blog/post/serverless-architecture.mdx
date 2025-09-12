@@ -1,30 +1,31 @@
 ---
-title: 'Serverless Architecture: Benefits and Limitations'
+title: "Serverless Architecture: Benefits and Limitations"
 date: 2024-03-25
 category: Web Development
 description: Explore the serverless computing model, how functions scale automatically, and the trade‑offs to consider before adopting serverless architecture.
 ---
-Serverless computing abstracts away server management.  Instead of provisioning and maintaining servers, you write small units of code—functions—that run in response to events.  The cloud provider handles provisioning, scaling and billing.  When I first experimented with AWS Lambda, I loved that I could deploy a function to handle an incoming webhook without worrying about configuring EC2 instances or Docker containers.
 
-To understand how serverless works, consider platforms like AWS Lambda, Azure Functions and Google Cloud Functions.  You package your code and configuration, then upload it to the service.  When an event triggers the function (for example, an HTTP request or a message in a queue), the platform provisions a runtime environment, executes the code and then tears down the environment when it’s done.  You’re billed for the time your function actually runs, not for idle server time.
+Serverless computing abstracts away server management. Instead of provisioning and maintaining servers, you write small units of code—functions—that run in response to events. The cloud provider handles provisioning, scaling and billing. When I first experimented with AWS Lambda, I loved that I could deploy a function to handle an incoming webhook without worrying about configuring EC2 instances or Docker containers.
 
-The benefits of this model are compelling.  There’s no server management, so you can focus entirely on business logic.  Functions scale automatically based on demand—if thousands of requests come in simultaneously, the provider spins up as many instances as needed.  Pricing is usage‑based, so you’re not paying for idle servers.  Because each function is a small unit of code, deployment is fast, enabling quick iteration.  In one of my projects, we used serverless functions to generate PDFs on demand; the pay‑per‑execution model saved us money compared to keeping a dedicated server running around the clock.
+To understand how serverless works, consider platforms like AWS Lambda, Azure Functions and Google Cloud Functions. You package your code and configuration, then upload it to the service. When an event triggers the function (for example, an HTTP request or a message in a queue), the platform provisions a runtime environment, executes the code and then tears down the environment when it’s done. You’re billed for the time your function actually runs, not for idle server time.
+
+The benefits of this model are compelling. There’s no server management, so you can focus entirely on business logic. Functions scale automatically based on demand—if thousands of requests come in simultaneously, the provider spins up as many instances as needed. Pricing is usage‑based, so you’re not paying for idle servers. Because each function is a small unit of code, deployment is fast, enabling quick iteration. In one of my projects, we used serverless functions to generate PDFs on demand; the pay‑per‑execution model saved us money compared to keeping a dedicated server running around the clock.
 
 Here’s a simple example of a Node.js AWS Lambda function that responds to an API Gateway event:
 
-```js
+```js showLineNumbers
 exports.handler = async (event) => {
-  const name = event.queryStringParameters?.name || 'World';
+  const name = event.queryStringParameters?.name || "World";
   return {
     statusCode: 200,
-    headers: { 'Content-Type': 'application/json' },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message: `Hello, ${name}!` }),
   };
 };
 ```
 
-In this example the function reads a query parameter, constructs a JSON response and returns it.  You don’t manage any servers—AWS handles the runtime.  However, be mindful that if the function hasn’t been invoked for a while, AWS must “cold start” a container, which adds latency.  Functions also have maximum execution durations (e.g., 15 minutes on AWS Lambda), making them unsuitable for long‑running tasks like video encoding.  Each provider has its own triggers and configuration models, which can lead to vendor lock‑in.  Finally, designing a large application with dozens of small functions can result in complex event flows that are harder to debug and monitor than a monolithic service.
+In this example the function reads a query parameter, constructs a JSON response and returns it. You don’t manage any servers—AWS handles the runtime. However, be mindful that if the function hasn’t been invoked for a while, AWS must “cold start” a container, which adds latency. Functions also have maximum execution durations (e.g., 15 minutes on AWS Lambda), making them unsuitable for long‑running tasks like video encoding. Each provider has its own triggers and configuration models, which can lead to vendor lock‑in. Finally, designing a large application with dozens of small functions can result in complex event flows that are harder to debug and monitor than a monolithic service.
 
-When deciding whether to use serverless, consider your workload.  It’s ideal for event‑driven tasks: webhooks, scheduled jobs, file processing, real‑time notifications or IoT data ingestion.  For latency‑sensitive APIs, cold starts might be problematic; you can mitigate them by keeping functions warm or using provisioned concurrency, but that increases cost.  For compute‑heavy workloads or tasks that run longer than the platform allows, a container or virtual machine may be more appropriate.  In many architectures a hybrid approach works best—use serverless functions for sporadic or spiky workloads and containers for persistent services.
+When deciding whether to use serverless, consider your workload. It’s ideal for event‑driven tasks: webhooks, scheduled jobs, file processing, real‑time notifications or IoT data ingestion. For latency‑sensitive APIs, cold starts might be problematic; you can mitigate them by keeping functions warm or using provisioned concurrency, but that increases cost. For compute‑heavy workloads or tasks that run longer than the platform allows, a container or virtual machine may be more appropriate. In many architectures a hybrid approach works best—use serverless functions for sporadic or spiky workloads and containers for persistent services.
 
-Serverless architecture can dramatically reduce operational overhead and costs, but it comes with trade‑offs.  Weigh the pros and cons carefully, and test performance and cold‑start times before fully committing.  With thoughtful design, serverless functions can be a powerful tool in your development toolbox.
+Serverless architecture can dramatically reduce operational overhead and costs, but it comes with trade‑offs. Weigh the pros and cons carefully, and test performance and cold‑start times before fully committing. With thoughtful design, serverless functions can be a powerful tool in your development toolbox.

@@ -28,7 +28,7 @@ export default async function CategoryPage({ params }: YearProps) {
       <h1 className="text-2xl font-semibold mb-6">Year: {year}</h1>
 
       <section className="flex flex-col lg:flex-row gap-12 p-4 pt-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        <div className="grid grid-cols-1 gap-8 mt-8">
           {posts
             .sort((a, b) => b.date.localeCompare(a.date))
             .map((post, index) => (

@@ -1,16 +1,17 @@
 ---
-title: 'Solid Queue in Rails 8: Advanced Tuning and Pitfalls (Part 2)'
+title: "Solid Queue in Rails 8: Advanced Tuning and Pitfalls (Part 2)"
 date: 2025-02-20
 category: Ruby on Rails
 description: Dive into Solid Queue’s advanced features like priorities, concurrency controls and scheduled jobs while learning how to avoid common mistakes.
 ---
+
 Solid Queue may seem simple at first glance—it stores jobs in your database and processes them with worker processes—but it includes a number of advanced features that mirror or even surpass what you might be used to from Sidekiq. This post picks up where we left off in the introduction by exploring how to tune Solid Queue for high‑throughput workloads, configure job priorities and schedules and avoid some of the pitfalls I encountered while migrating a production system.
 
 ## Configuring concurrency and queues
 
 The **worker process** you start with `bin/rails solid_queue:work` can be tuned with command‑line options and YAML configuration files. By default one worker will poll the database and execute jobs sequentially. For most applications this is fine, but if you enqueue many jobs you’ll want multiple workers or threads. You can specify the number of worker threads like so:
 
-```bash
+```bash showLineNumbers
 bin/rails solid_queue:work --threads=5
 ```
 
@@ -18,7 +19,7 @@ Each thread polls the database separately and locks a job with `FOR UPDATE SKIP 
 
 For more granular control you can define a `config/queues.yml` file that tells Solid Queue how many threads to allocate per queue. Here’s an example that defines three queues with different concurrency:
 
-```yaml
+```yaml showLineNumbers
 development:
   workers:
     - queues: [default]
@@ -37,7 +38,7 @@ Another important tuning parameter is **visibility timeout**, which determines h
 
 Solid Queue supports two methods of prioritizing work: **numeric priorities** and **queue order**. When enqueuing a job you can assign a priority between ‑10 and 10, with lower numbers indicating higher priority. For example:
 
-```ruby
+```ruby showLineNumbers
 class SendReceiptJob < ApplicationJob
   queue_as :default
   priority -5
@@ -52,7 +53,7 @@ This job will jump ahead of other `default` queue jobs with a higher (less negat
 
 Queue ordering is the other lever. Workers will process queues in the order you list them in the `queues.yml` file. If you want your `critical` queue processed before `default`, place it first:
 
-```yaml
+```yaml showLineNumbers
 development:
   workers:
     - queues: [critical, default, mailers]
@@ -65,7 +66,7 @@ Solid Queue will exhaust jobs in `critical` before moving to `default`. Combined
 
 Beyond immediate execution, Solid Queue supports **scheduled** and **recurring** jobs. To schedule a job in the future, pass a timestamp to `set`:
 
-```ruby
+```ruby showLineNumbers
 # Schedule a job one hour from now
 ReportGenerationJob.set(wait_until: 1.hour.from_now).perform_later(user_id)
 ```
@@ -74,17 +75,17 @@ When you schedule a job, Solid Queue writes a record with a `scheduled_at` times
 
 Recurring jobs are defined at the queue configuration level using cron syntax. You create a `recurring_jobs` section in your `queues.yml` file like this:
 
-```yaml
+```yaml showLineNumbers
 production:
   recurring_jobs:
     weekly_cleanup:
       job: CleanupJob
-      cron: '0 3 * * 0'   # Runs every Sunday at 3 AM
+      cron: "0 3 * * 0" # Runs every Sunday at 3 AM
       queue: default
       priority: 5
     hourly_stats:
       job: StatsJob
-      cron: '0 * * * *'   # Runs at the top of every hour
+      cron: "0 * * * *" # Runs at the top of every hour
       queue: default
 ```
 
@@ -94,7 +95,7 @@ Solid Queue will evaluate these cron expressions and enqueue the corresponding j
 
 Processing jobs in your database has one hidden benefit: you can inspect and manage them using standard SQL queries. You can see enqueued jobs by running `SELECT * FROM active_jobs WHERE finished_at IS NULL`, filter by queue or priority, and even delete orphaned jobs manually if needed. However, manually poking the database gets old quickly, so Solid Queue ships with a simple web UI called **Mission Control**. To use it, mount the engine in your routes:
 
-```ruby
+```ruby showLineNumbers
 # config/routes.rb
 Rails.application.routes.draw do
   mount SolidQueue::MissionControl => '/solid_queue'
@@ -108,10 +109,10 @@ Navigate to `/solid_queue` in your browser and you’ll see dashboards of enqueu
 
 Despite its convenience, Solid Queue introduces some challenges. Here are a few pitfalls I’ve encountered and how to avoid them:
 
-* **Database connections:** Each worker thread uses its own Active Record connection. If you start too many threads, you may exhaust your connection pool and starve your web requests. Ensure your `config/database.yml` `pool` size is large enough and monitor connection usage in production.
-* **Long‑running jobs:** Because jobs share the same database as your main app, a job that runs for minutes or hours can hold locks or block other queries. Break long jobs into smaller units or offload them to external services when possible.
-* **Migrations:** The `active_jobs` table needs appropriate indexes (e.g., on `queue` and `priority`) for performance. When you upgrade Solid Queue, read the release notes for migration changes and run them promptly.
-* **Mixed adapters:** If you plan to use Solid Queue in development and Redis-backed Sidekiq in production, be aware that Active Job uses different serializer options. Jobs serialized for one adapter may not deserialize in the other. Stick to one queue backend across environments to avoid surprises.
-* **Testing:** Write unit tests for your jobs and integration tests to ensure they enqueue correctly. Use the `SolidQueue::Testing.inline!` helper to run jobs synchronously in tests.
+- **Database connections:** Each worker thread uses its own Active Record connection. If you start too many threads, you may exhaust your connection pool and starve your web requests. Ensure your `config/database.yml` `pool` size is large enough and monitor connection usage in production.
+- **Long‑running jobs:** Because jobs share the same database as your main app, a job that runs for minutes or hours can hold locks or block other queries. Break long jobs into smaller units or offload them to external services when possible.
+- **Migrations:** The `active_jobs` table needs appropriate indexes (e.g., on `queue` and `priority`) for performance. When you upgrade Solid Queue, read the release notes for migration changes and run them promptly.
+- **Mixed adapters:** If you plan to use Solid Queue in development and Redis-backed Sidekiq in production, be aware that Active Job uses different serializer options. Jobs serialized for one adapter may not deserialize in the other. Stick to one queue backend across environments to avoid surprises.
+- **Testing:** Write unit tests for your jobs and integration tests to ensure they enqueue correctly. Use the `SolidQueue::Testing.inline!` helper to run jobs synchronously in tests.
 
 By understanding these advanced features and pitfalls, you can harness Solid Queue’s power and avoid common headaches. Moving background jobs into the database may feel unconventional, but in my experience it reduces complexity and brings everything under one roof. In the next series of posts we’ll turn our attention to real-time features with Solid Cable and explore caching with Solid Cache, rounding out Rails 8’s new mission to make full‑stack development simpler.

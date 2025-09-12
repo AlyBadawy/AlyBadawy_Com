@@ -1,9 +1,10 @@
 ---
-title: 'Deploying a Rails 8 App with Kamal: Zero‑Downtime, Easy DevOps'
+title: "Deploying a Rails 8 App with Kamal: Zero‑Downtime, Easy DevOps"
 date: 2025-05-05
 category: Ruby on Rails
 description: Learn how to deploy a Rails 8 application using Kamal—Rails’ built‑in container deployment tool—for zero‑downtime updates and streamlined operations.
 ---
+
 Shipping your application to production is often the most daunting step in the development lifecycle. Traditional Rails deployments have relied on Capistrano, Docker images or Platform‑as‑a‑Service solutions like Heroku. With Rails 8, the framework introduces **Kamal**—formerly known as MRsk—a first‑class deployment tool designed to build, push and orchestrate your application in containers across one or many servers. Kamal handles zero‑downtime rolling deploys, environment management and accessory services with minimal configuration.
 
 I’ve deployed several projects with Kamal and have been impressed by how it bridges the gap between bare‑metal servers and fully managed platforms. In this post we’ll walk through setting up Kamal, deploying a Rails 8 app to a VPS and exploring the features that make it a compelling alternative to more complex DevOps stacks.
@@ -14,11 +15,7 @@ Kamal is an open‑source deployment tool from 37signals (the company behind Rai
 
 ## Preparing your application
 
-To deploy with Kamal you need a Rails app that can run in a container. Rails 8 encourages container‑friendly defaults: the default `Dockerfile` uses multi‑stage builds to compile assets and install dependencies. If your app doesn’t already have a `Dockerfile`, you can generate one with:
-
-```bash
-bin/rails app:template LOCATION=https://raw.githubusercontent.com/rails/rails/main/railties/lib/rails/generators/rails/app/templates/templates/docker/Dockerfile
-```
+To deploy with Kamal you need a Rails app that can run in a container. Rails 8 encourages container‑friendly defaults: the default `Dockerfile` uses multi‑stage builds to compile assets and install dependencies.
 
 This file defines a `builder` stage for assets and a `production` stage to run the web server. It uses `bundle config set deployment 'true'` to install gems in deployment mode and `yarn install` for JavaScript dependencies. You’ll also want a `.dockerignore` to exclude local files and test data from the build context.
 
@@ -26,13 +23,13 @@ This file defines a `builder` stage for assets and a `production` stage to run t
 
 Kamal stores its configuration in a YAML file under `config/deploy.yml` (older versions used `deploy.yml`). To create one, run:
 
-```bash
+```bash showLineNumbers
 bundle exec kamal init
 ```
 
 This prompts you for the service name, image registry and server addresses. A minimal `deploy.yml` might look like this:
 
-```yaml
+```yaml showLineNumbers
 service: myapp
 image: registry.example.com/myapp
 
@@ -57,7 +54,7 @@ The `service` name identifies your application. `image` is the fully qualified n
 
 With `deploy.yml` configured, you can build and push your container image. From the root of your project run:
 
-```bash
+```bash showLineNumbers
 bundle exec kamal build
 bundle exec kamal push
 ```
@@ -68,7 +65,7 @@ bundle exec kamal push
 
 After the image is available, deploy it to your servers:
 
-```bash
+```bash showLineNumbers
 bundle exec kamal deploy
 ```
 
@@ -86,7 +83,7 @@ This zero‑downtime strategy ensures your users never see an error page during 
 
 Kamal can also manage **accessory services** like PostgreSQL, MySQL, Redis, Solid Cache or Solid Queue. Define them in your `deploy.yml` like so:
 
-```yaml
+```yaml showLineNumbers
 accessories:
   database:
     image: postgres:16
@@ -98,7 +95,7 @@ accessories:
     volumes:
       - data:/var/lib/postgresql/data
     ports:
-      - '5432:5432'
+      - "5432:5432"
 
   redis:
     image: redis:7
@@ -106,7 +103,7 @@ accessories:
     volumes:
       - redis_data:/data
     ports:
-      - '6379:6379'
+      - "6379:6379"
 ```
 
 Accessories run in Docker Compose on the specified host. Kamal will set up volumes for persistence and ensure they start before your app. This eliminates the need to manually provision databases or caches.
@@ -121,7 +118,7 @@ Kamal uses `.env` files and ERB interpolation to manage environment variables. S
 
 One of Kamal’s standout features is **blue/green deployments**. By running a new container alongside the old one and switching the proxy only after the new container is healthy, you minimize risk. If you need to roll back, Kamal keeps the previous image on your servers. Simply run:
 
-```bash
+```bash showLineNumbers
 bundle exec kamal rollback
 ```
 

@@ -19,9 +19,10 @@ export const ContactHireSection = () => {
           data-aos="fade-up"
           data-aos-delay={50}
         >
-          Whether you need secure web applications, custom embedded systems, or
-          just want to chat about your next project, let’s connect. Reach out
-          and I’ll respond quickly—your ideas are welcome here!
+          I build solutions engineered for real-world deployment—robust, secure,
+          and ready for production from day one. Every project is designed with
+          your future in mind, built to scale as your ambitions grow. Let’s
+          connect and turn your vision into a solution that lasts.
         </p>
         <div
           className="flex flex-wrap gap-6 justify-center"

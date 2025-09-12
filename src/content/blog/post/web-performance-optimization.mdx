@@ -1,26 +1,33 @@
 ---
-title: 'Frontend Performance Optimization Strategies'
+title: "Frontend Performance Optimization Strategies"
 date: 2024-05-25
 category: Web Development
 description: Improve your website’s speed and user experience using techniques such as image optimization, caching strategies and lazy loading.
 ---
-Fast websites improve user engagement and search rankings.  I learned this firsthand when a personal project went viral on Hacker News—traffic spiked, and the pages that loaded quickly kept users around, while the sluggish ones lost visitors.  Frontend performance optimization isn’t just about numbers; it’s about creating a pleasant experience that invites people to explore your site.
 
-One of the biggest culprits of slow pages is heavy images.  To optimize images, choose the right format: JPEG for photos, PNG for graphics with transparency and WebP or AVIF for modern browsers.  Compress images using lossy or lossless algorithms depending on the quality you need.  You can automate this process using build tools like ImageOptim or Webpack loaders.  Also consider serving images through a content delivery network (CDN) so they are delivered from servers close to your users.  When embedding images, enable lazy loading by adding the `loading="lazy"` attribute:
+Fast websites improve user engagement and search rankings. I learned this firsthand when a personal project went viral on Hacker News—traffic spiked, and the pages that loaded quickly kept users around, while the sluggish ones lost visitors. Frontend performance optimization isn’t just about numbers; it’s about creating a pleasant experience that invites people to explore your site.
 
-```html
-<img src="/images/profile.jpg" alt="Profile" width="400" height="400" loading="lazy" />
+One of the biggest culprits of slow pages is heavy images. To optimize images, choose the right format: JPEG for photos, PNG for graphics with transparency and WebP or AVIF for modern browsers. Compress images using lossy or lossless algorithms depending on the quality you need. You can automate this process using build tools like ImageOptim or Webpack loaders. Also consider serving images through a content delivery network (CDN) so they are delivered from servers close to your users. When embedding images, enable lazy loading by adding the `loading="lazy"` attribute:
+
+```html showLineNumbers
+<img
+  src="/images/profile.jpg"
+  alt="Profile"
+  width="400"
+  height="400"
+  loading="lazy"
+/>
 ```
 
 This defers downloading the image until it enters the viewport, improving initial page load.
 
-Caching is another powerful technique.  Browser caching stores resources such as HTML, CSS, JavaScript and images on the user’s device so subsequent visits load instantly.  You control caching through HTTP headers like `Cache-Control` and `ETag`.  CDN caching replicates your assets across distributed servers, reducing latency for global visitors.  Service workers can go a step further by programmatically caching resources and enabling offline experiences.  For example, a service worker could cache the application shell during installation:
+Caching is another powerful technique. Browser caching stores resources such as HTML, CSS, JavaScript and images on the user’s device so subsequent visits load instantly. You control caching through HTTP headers like `Cache-Control` and `ETag`. CDN caching replicates your assets across distributed servers, reducing latency for global visitors. Service workers can go a step further by programmatically caching resources and enabling offline experiences. For example, a service worker could cache the application shell during installation:
 
-```js
-self.addEventListener('install', event => {
+```js showLineNumbers
+self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open('app-shell').then(cache => {
-      return cache.addAll(['/index.html', '/styles.css', '/app.js']);
+    caches.open("app-shell").then((cache) => {
+      return cache.addAll(["/index.html", "/styles.css", "/app.js"]);
     })
   );
 });
@@ -28,8 +35,8 @@ self.addEventListener('install', event => {
 
 When the user navigates to your site again, the service worker serves cached files immediately and optionally fetches updated versions in the background.
 
-Lazy loading applies beyond images.  Defer the loading of non‑critical JavaScript modules, third‑party widgets and below‑the‑fold content until the user needs them.  Combine this with prefetching, which downloads resources just before they’re needed, to smooth transitions.  Some frameworks support code splitting and dynamic imports, letting you load only the components required for the current route.
+Lazy loading applies beyond images. Defer the loading of non‑critical JavaScript modules, third‑party widgets and below‑the‑fold content until the user needs them. Combine this with prefetching, which downloads resources just before they’re needed, to smooth transitions. Some frameworks support code splitting and dynamic imports, letting you load only the components required for the current route.
 
-Finally, optimize your code.  Minify and bundle JavaScript and CSS to reduce file sizes.  Use tree shaking in build tools like Webpack and Rollup to remove unused code.  Mark scripts as `defer` or `async` so they don’t block rendering of the page.  Evaluate your dependencies periodically—removing a heavy library or replacing it with a lighter alternative can yield big gains.
+Finally, optimize your code. Minify and bundle JavaScript and CSS to reduce file sizes. Use tree shaking in build tools like Webpack and Rollup to remove unused code. Mark scripts as `defer` or `async` so they don’t block rendering of the page. Evaluate your dependencies periodically—removing a heavy library or replacing it with a lighter alternative can yield big gains.
 
-By implementing these strategies, you can significantly reduce page load times and deliver a smooth, responsive web experience.  Performance optimization is an ongoing process: measure, optimize and repeat.  Your visitors will appreciate the effort, and search engines will reward you with better visibility.
+By implementing these strategies, you can significantly reduce page load times and deliver a smooth, responsive web experience. Performance optimization is an ongoing process: measure, optimize and repeat. Your visitors will appreciate the effort, and search engines will reward you with better visibility.

@@ -1,16 +1,17 @@
 ---
-title: 'Solid Queue in Rails 8: A Lightweight Alternative to Redis (Part 1)'
+title: "Solid Queue in Rails 8: A Lightweight Alternative to Redis (Part 1)"
 date: 2025-02-05
 category: Ruby on Rails
 description: Discover Solid Queue, Rails 8’s built‑in background job system that runs on your database—no Redis required—and learn how it works under the hood.
 ---
+
 Background job processing is a common requirement for modern web applications. Sending emails, processing uploads and performing CPU‑heavy calculations are tasks you don’t want your users to wait for. Traditionally the Rails ecosystem has relied on gems like Sidekiq and Resque backed by Redis to handle this work. While effective, adding Redis introduces an extra service to install, scale and monitor. Over the years I’ve seen teams struggle with configuring Redis clusters, handling failover and dealing with memory pressure — all for the sake of background jobs.
 
 With Rails 8, that external dependency disappears. **Solid Queue** is the new default queue adapter for Active Job. It stores jobs in your application’s database and relies on standard SQL features such as `FOR UPDATE SKIP LOCKED` to safely allow multiple workers to pull jobs without stepping on each other. Because it’s a native part of Rails, there’s nothing else to install. Your `Job` classes work the same as always, but instead of pushing payloads into Redis they create rows in the `active_jobs` table. A built‑in job runner polls this table and executes jobs in the order they were enqueued.
 
 To start using Solid Queue, you don’t need to add any gems. Generate a new job as you normally would:
 
-```ruby
+```ruby showLineNumbers
 # Generate a job with rails generator
 bin/rails generate job hard_work
 
@@ -27,7 +28,7 @@ end
 
 Enqueueing a job happens as usual with `HardWorkJob.perform_later`. When called, Rails inserts a record into the `active_jobs` table. To process jobs you run the built‑in worker:
 
-```bash
+```bash showLineNumbers
 bin/rails solid_queue:work
 ```
 

@@ -1,23 +1,24 @@
 ---
-title: 'GraphQL vs REST: Choosing the Right API Design'
+title: "GraphQL vs REST: Choosing the Right API Design"
 date: 2024-02-20
 category: Web Development
 description: Compare GraphQL and REST architectures to understand how GraphQL can prevent over‑fetching and reduce network requests while REST remains a solid choice for simple endpoints.
 ---
-When designing APIs, you’ll inevitably weigh the strengths of REST against those of GraphQL.  REST organizes your data into resource‑oriented endpoints (`/users`, `/posts`) that return predefined structures.  GraphQL, by contrast, exposes a single `/graphql` endpoint and lets clients describe exactly what data they need using a query language.  I first embraced GraphQL on a project with a complex domain model where the front‑end kept sending multiple REST requests to assemble a single view.
 
-One of the main advantages of GraphQL is that it eliminates over‑fetching and under‑fetching.  Because the client defines the shape of the response, it avoids receiving unnecessary fields and reduces the number of network requests.  The type system is introspectable, so tooling like GraphiQL and Apollo DevTools can generate documentation and autocompletion.  This self‑documenting nature accelerates development and helps keep front‑end and back‑end teams in sync.  On top of that, GraphQL decouples clients from specific back‑end endpoints; you can evolve your schema without versioning each route.
+When designing APIs, you’ll inevitably weigh the strengths of REST against those of GraphQL. REST organizes your data into resource‑oriented endpoints (`/users`, `/posts`) that return predefined structures. GraphQL, by contrast, exposes a single `/graphql` endpoint and lets clients describe exactly what data they need using a query language. I first embraced GraphQL on a project with a complex domain model where the front‑end kept sending multiple REST requests to assemble a single view.
 
-Here’s a simple example comparing the two styles.  In REST you might fetch a post and its author with two requests:
+One of the main advantages of GraphQL is that it eliminates over‑fetching and under‑fetching. Because the client defines the shape of the response, it avoids receiving unnecessary fields and reduces the number of network requests. The type system is introspectable, so tooling like GraphiQL and Apollo DevTools can generate documentation and autocompletion. This self‑documenting nature accelerates development and helps keep front‑end and back‑end teams in sync. On top of that, GraphQL decouples clients from specific back‑end endpoints; you can evolve your schema without versioning each route.
 
-```bash
+Here’s a simple example comparing the two styles. In REST you might fetch a post and its author with two requests:
+
+```bash showLineNumbers
 curl https://api.example.com/posts/1
 curl https://api.example.com/users/4
 ```
 
 With GraphQL you can request both the post and the author in one query:
 
-```graphql
+```graphql showLineNumbers
 query {
   post(id: 1) {
     id
@@ -30,10 +31,10 @@ query {
 }
 ```
 
-The server resolves nested relationships and returns only the fields you requested.  This makes GraphQL particularly attractive for mobile apps where minimizing round trips and payload size improves performance.
+The server resolves nested relationships and returns only the fields you requested. This makes GraphQL particularly attractive for mobile apps where minimizing round trips and payload size improves performance.
 
-That said, REST is still a great choice for many APIs.  It’s simple, widely understood and integrates seamlessly with HTTP features like caching, status codes and proxies.  For straightforward CRUD services with predictable payloads, REST endpoints are easier to monitor and reason about.  They also avoid some of the overhead of operating a GraphQL server and writing resolvers.
+That said, REST is still a great choice for many APIs. It’s simple, widely understood and integrates seamlessly with HTTP features like caching, status codes and proxies. For straightforward CRUD services with predictable payloads, REST endpoints are easier to monitor and reason about. They also avoid some of the overhead of operating a GraphQL server and writing resolvers.
 
-Choosing between GraphQL and REST isn’t an either/or decision.  I often start with a REST API and adopt GraphQL for parts of the system where clients need flexibility or where the domain has lots of relationships.  Your team’s familiarity, the complexity of your data model and the performance requirements of your clients should guide your choice.  In some architectures, a hybrid approach—exposing both REST and GraphQL—provides the best of both worlds.
+Choosing between GraphQL and REST isn’t an either/or decision. I often start with a REST API and adopt GraphQL for parts of the system where clients need flexibility or where the domain has lots of relationships. Your team’s familiarity, the complexity of your data model and the performance requirements of your clients should guide your choice. In some architectures, a hybrid approach—exposing both REST and GraphQL—provides the best of both worlds.
 
-Ultimately, both paradigms have strengths.  GraphQL shines when you need fine‑grained control over data fetching and want to reduce network chatter, while REST remains a solid, tried‑and‑true pattern for simpler services.  Choose the right tool for each part of your project and don’t be afraid to mix and match.
+Ultimately, both paradigms have strengths. GraphQL shines when you need fine‑grained control over data fetching and want to reduce network chatter, while REST remains a solid, tried‑and‑true pattern for simpler services. Choose the right tool for each part of your project and don’t be afraid to mix and match.
