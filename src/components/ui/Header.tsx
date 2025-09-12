@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export const Header = () => {
   return (
-    <header className="text-white mb-4 sticky top-0 bg-zinc-950 shadow-lg z-10 border-b border-zinc-900">
+    <header className="text-white sticky top-0 bg-zinc-950 shadow-lg shadow-zinc-900 z-10 border-b border-zinc-900">
       <div className="container mx-auto p-4">
         <div className="flex flex-row justify-between items-center">
           <div className="w-28 sm:w-40 mr-2">

@@ -4,7 +4,7 @@ import { HomeSolution } from "./HomeSolution";
 export const HomeSolutionSection = () => {
   return (
     <div className="bg-zinc-900">
-      <div className="container mx-auto my-8 p-4">
+      <div className="container mx-auto p-4">
         <section
           id="solutions"
           className="flex flex-col p-4 pt-14 text-neutral-400"

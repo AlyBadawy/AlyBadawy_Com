@@ -5,7 +5,7 @@ import { PortfolioProject } from "./PortfolioProject";
 export const PortfolioSection = () => {
   return (
     <div className="bg-zinc-900">
-      <div className="container mx-auto my-8 p-4">
+      <div className="container mx-auto p-4">
         <section id="portfolio" className="flex flex-col p-4 pt-14">
           <h2
             className="text-2xl md:text-5xl font-semibold mb-6 text-center text-cyan-500"

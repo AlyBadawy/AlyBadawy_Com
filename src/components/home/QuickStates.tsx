@@ -2,7 +2,7 @@ import { STATS } from "@/data/home-states";
 
 export const QuickStats = () => {
   return (
-    <div className="container mx-auto my-8 p-4">
+    <div className="container mx-auto p-4">
       <section className="py-14 flex flex-col items-center">
         <h2
           className="text-2xl md:text-4xl font-semibold mb-8 text-center text-cyan-500"
