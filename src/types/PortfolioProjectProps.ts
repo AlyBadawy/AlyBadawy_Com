@@ -1,4 +1,3 @@
-import { PortfolioProject } from "./../components/home/PortfolioProject";
 import { StaticImageData } from "next/image";
 
 export type PortfolioProjectData = {

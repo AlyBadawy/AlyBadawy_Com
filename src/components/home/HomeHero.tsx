@@ -1,7 +1,7 @@
 import Image from "next/image";
 import AlyPicture from "@/assets/images/aly-badawy-profile.jpg";
 import Link from "next/link";
-import { FaFileAlt, FaUser, FaArrowRight } from "react-icons/fa";
+import { FaFileAlt, FaUser } from "react-icons/fa";
 
 export const HomeHero = () => {
   return (

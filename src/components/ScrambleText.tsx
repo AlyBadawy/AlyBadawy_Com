@@ -10,7 +10,6 @@ type ScrambleTextProps = {
 export const ScrambleText = ({ text, start, delay }: ScrambleTextProps) => {
   const ref = useRef(null);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const b = baffle(ref.current);
     b.set({
@@ -25,6 +24,6 @@ export const ScrambleText = ({ text, start, delay }: ScrambleTextProps) => {
         b.stop();
       }
     };
-  }, []);
+  }, [delay, start]);
   return <span ref={ref}>{text}</span>;
 };

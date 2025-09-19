@@ -1,6 +1,5 @@
 import { BsAppIndicator, BsCpu, BsShieldLock } from "react-icons/bs";
 import { HomeSolution } from "./HomeSolution";
-import Link from "next/link";
 
 export const HomeSolutionSection = () => {
   return (

@@ -1,5 +1,4 @@
-import ResendClient from "@/utils/resend";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { Resend } from "resend";
 
 export const POST = async (req: NextRequest) => {

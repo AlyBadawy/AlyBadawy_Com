@@ -1,8 +1,5 @@
 import Image from "next/image";
-import {
-  PortfolioProjectData,
-  PortfolioProjectProps,
-} from "@/types/PortfolioProjectProps";
+import { PortfolioProjectProps } from "@/types/PortfolioProjectProps";
 
 export const PortfolioProject = ({ project, index }: PortfolioProjectProps) => {
   return (

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { PROJECTS } from "@/data/home-projects";
 import { PortfolioProject } from "./PortfolioProject";
 

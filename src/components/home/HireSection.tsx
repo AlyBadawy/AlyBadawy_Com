@@ -1,7 +1,6 @@
-import Image from "next/image";
 import HirePic from "@/assets/images/home-hire.png";
+import Image from "next/image";
 import Link from "next/link";
-import { FaHandshake } from "react-icons/fa";
 
 export const HireSection = () => {
   return (
