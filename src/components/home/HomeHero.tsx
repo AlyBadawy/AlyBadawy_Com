@@ -12,7 +12,7 @@ export const HomeHero = () => {
         <div className="absolute bottom-0 -right-4 w-96 h-96 bg-cyan-600 rounded-full opacity-10 blur-3xl animate-pulse delay-1000"></div>
       </div>
 
-      <div className="relative container mx-auto px-6 py-12 lg:py-16">
+      <div className="relative container mx-auto px-6 py-8 lg:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* MAIN CONTENT */}
           <div className="lg:col-span-8 order-2 lg:order-1" data-aos="fade-up">
@@ -23,20 +23,13 @@ export const HomeHero = () => {
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-6">
-              <span className="text-white">Crafting</span>
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-gradient">
-                Practical Solutions
-              </span>
-              <br />
-              <span className="text-gray-300 font-light text-3xl md:text-4xl lg:text-5xl">
-                as a{" "}
-                <em className="text-cyan-300 not-italic font-medium">
-                  Software Engineer
-                </em>
-              </span>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-6 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-gradient">
+              Aly Badawy
             </h1>
+            <h2 className="text-base md:text-lg lg:text-xl font-semibold mb-6 text-gray-300">
+              Senior Software Engineer • Embedded Systems Expert • Tech
+              Enthusiast
+            </h2>
 
             {/* Bio Section */}
             <div className="space-y-4 text-gray-300 leading-relaxed max-w-4xl mb-8">
@@ -60,12 +53,7 @@ export const HomeHero = () => {
                 <span className="text-white font-semibold">
                   stand the test of time
                 </span>
-                , mentor teams to excellence, and have strong opinions about
-                what makes software truly great.
-              </p>
-
-              <p>
-                I specialize in{" "}
+                . I specialize in{" "}
                 <span className="text-red-400 font-semibold">
                   secure web applications
                 </span>
@@ -76,9 +64,8 @@ export const HomeHero = () => {
                 , and{" "}
                 <span className="text-green-400 font-semibold">
                   advanced PCB/IoT systems
-                </span>
-                . I deliver robust solutions across web, embedded, and hardware
-                domains—focused on{" "}
+                </span>{" "}
+                to deliver robust solutions-focused on{" "}
                 <span className="text-yellow-400 font-semibold">security</span>,{" "}
                 <span className="text-green-400 font-semibold">
                   reliability
@@ -142,7 +129,7 @@ export const HomeHero = () => {
 
             <div className="relative">
               {/* Glow effect */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-1000"></div>
+              <div className="absolute -inset-2 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-1000"></div>
 
               {/* Image container */}
               <div className="relative">

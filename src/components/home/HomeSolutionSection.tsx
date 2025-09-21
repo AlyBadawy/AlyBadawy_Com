@@ -1,5 +1,6 @@
-import { BsAppIndicator, BsCpu, BsShieldLock } from "react-icons/bs";
+import { BsAppIndicator, BsCpu, BsShieldLock, BsGlobe } from "react-icons/bs";
 import { HomeSolution } from "./HomeSolution";
+import Link from "next/link";
 
 export const HomeSolutionSection = () => {
   return (
@@ -25,7 +26,32 @@ export const HomeSolutionSection = () => {
           </div>
 
           {/* Solutions grid with enhanced layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
+            <HomeSolution title="Software development" icon={<BsGlobe />}>
+              <p className="text-base">
+                I build modern{" "}
+                <span className="text-cyan-400 font-semibold">
+                  web applications
+                </span>{" "}
+                and{" "}
+                <span className="text-emerald-400 font-semibold">
+                  cross-platform apps
+                </span>
+                . I focus on{" "}
+                <span className="text-blue-400 font-semibold">performance</span>
+                ,{" "}
+                <span className="text-yellow-400 font-semibold">
+                  accessibility
+                </span>
+                , and{" "}
+                <span className="text-fuchsia-400 font-semibold">
+                  maintainability
+                </span>{" "}
+                —sharing code where it makes sense, designing resilient
+                offline-first experiences, and shipping with reliable CI/CD,
+                testing, and observability.
+              </p>
+            </HomeSolution>
             <HomeSolution title="DevSecOps Excellence" icon={<BsShieldLock />}>
               <p className="text-base">
                 I architect{" "}
@@ -45,7 +71,25 @@ export const HomeSolutionSection = () => {
                 —ready for mission-critical environments.
               </p>
             </HomeSolution>
-
+            <HomeSolution title="IoT & Embedded Systems" icon={<BsCpu />}>
+              <p className="text-base">
+                I engineer{" "}
+                <span className="text-yellow-400 font-semibold">
+                  intelligent embedded solutions
+                </span>
+                —from custom firmware for microcontrollers to comprehensive
+                <span className="text-pink-400 font-semibold">
+                  {" "}
+                  sensor integration
+                </span>{" "}
+                and cloud connectivity. My work bridges hardware and software to
+                deliver
+                <span className="text-white font-semibold">
+                  real-time, reliable systems
+                </span>
+                .
+              </p>
+            </HomeSolution>
             <HomeSolution
               title="Mobile App Innovation"
               icon={<BsAppIndicator />}
@@ -68,26 +112,6 @@ export const HomeSolutionSection = () => {
                 .
               </p>
             </HomeSolution>
-
-            <HomeSolution title="IoT & Embedded Systems" icon={<BsCpu />}>
-              <p className="text-base">
-                I engineer{" "}
-                <span className="text-yellow-400 font-semibold">
-                  intelligent embedded solutions
-                </span>
-                —from custom firmware for microcontrollers to comprehensive
-                <span className="text-pink-400 font-semibold">
-                  {" "}
-                  sensor integration
-                </span>{" "}
-                and cloud connectivity. My work bridges hardware and software to
-                deliver
-                <span className="text-white font-semibold">
-                  real-time, reliable systems
-                </span>
-                .
-              </p>
-            </HomeSolution>
           </div>
 
           {/* Call to action */}
@@ -96,10 +120,12 @@ export const HomeSolutionSection = () => {
               Ready to bring your next project to life with cutting-edge
               technology?
             </p>
-            <div className="inline-flex items-center px-6 py-3 text-sm font-medium text-cyan-400 border border-cyan-500/30 rounded-full hover:bg-cyan-500/10 transition-colors duration-300 cursor-pointer">
-              <span className="w-2 h-2 bg-cyan-400 rounded-full mr-2 animate-pulse"></span>
-              Let's discuss your vision
-            </div>
+            <Link href="/hire">
+              <div className="inline-flex items-center px-6 py-3 text-sm font-medium text-cyan-400 border border-cyan-500/30 rounded-full hover:bg-cyan-500/10 transition-colors duration-300 cursor-pointer">
+                <span className="w-2 h-2 bg-cyan-400 rounded-full mr-2 animate-pulse"></span>
+                Let's discuss your vision
+              </div>
+            </Link>
           </div>
         </section>
       </div>
